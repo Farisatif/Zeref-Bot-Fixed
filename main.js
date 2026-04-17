@@ -24,7 +24,8 @@ const {
   DisconnectReason,
   useMultiFileAuthState,
   makeCacheableSignalKeyStore,
-  fetchLatestBaileysVersion
+  fetchLatestBaileysVersion,
+  getAggregateVotesInPollMessage
 } = await import('@whiskeysockets/baileys');
 
 const { chain } = lodash;
@@ -282,6 +283,60 @@ conn.credsUpdate = saveCreds.bind(conn);
 conn.ev.on('messages.upsert', conn.handler);
 conn.ev.on('connection.update', conn.connectionUpdate);
 conn.ev.on('creds.update', conn.credsUpdate);
+
+// ====== POLL VOTE HANDLER (menu navigation) ======
+global.menuPolls = global.menuPolls || new Map();
+
+conn.ev.on('messages.update', async (updates) => {
+  for (const update of updates) {
+    if (!update.update?.pollUpdates) continue;
+
+    const pollId = update.key?.id;
+    const meta = global.menuPolls.get(pollId);
+    if (!meta) continue;
+
+    // Expired polls
+    if (Date.now() > meta.expires) {
+      global.menuPolls.delete(pollId);
+      continue;
+    }
+
+    try {
+      const pollMsg = await store.loadMessage(update.key.remoteJid, pollId);
+      if (!pollMsg) continue;
+
+      const votes = getAggregateVotesInPollMessage({
+        message: pollMsg.message,
+        pollUpdates: update.update.pollUpdates
+      });
+
+      const selected = votes.find(v => v.voters.length > 0);
+      if (!selected) continue;
+
+      const sectionName = selected.name;
+      const { menuSections } = await import('./plugins/منيو.js');
+      const sectionFn = menuSections[sectionName];
+      if (!sectionFn) continue;
+
+      const text = sectionFn(meta.prefix);
+      await conn.sendMessage(meta.chat, {
+        text,
+        contextInfo: {
+          externalAdReply: {
+            showAdAttribution: true,
+            mediaType: 'IMAGE',
+            title: sectionName,
+            body: global.wm,
+            thumbnail: global.imagen4,
+            sourceUrl: global.md
+          }
+        }
+      });
+    } catch (e) {
+      console.error('[POLL VOTE ERROR]', e.message);
+    }
+  }
+});
 
 // ====== PLUGINS ======
 const pluginFolder = global.__dirname(join(__dirname, './plugins/index'));
