@@ -101,7 +101,7 @@ const connectionOptions = {
     keys: makeCacheableSignalKeyStore(state.keys, pino({ level: 'silent' }))
   },
 
-  browser: ['Ubuntu', 'Chrome', '20.0.04'],
+  browser: ["Ubuntu", "Chrome", "20.0.04"],
   version,
   syncFullHistory: false,
   markOnlineOnConnect: true,
@@ -122,24 +122,19 @@ global.conn = makeWASocket(connectionOptions);
 conn.isInit = false;
 
 // Pairing Code Logic
-if (!conn.authState.creds.registered && !process.argv.includes('--test')) {
-    let phoneNumber = process.env.PHONE_NUMBER || global.owner?.[0]?.[0];
-    
-    if (phoneNumber) {
-        phoneNumber = phoneNumber.replace(/[^0-9]/g, '');
-        console.log(chalk.cyan(`[PAIRING] Using phone number from config/env: ${phoneNumber}`));
-        setTimeout(async () => {
-            try {
-                let code = await conn.requestPairingCode(phoneNumber);
-                code = code?.match(/.{1,4}/g)?.join("-") || code;
-                console.log(chalk.yellow.bold(`\n\nYOUR PAIRING CODE: ${code}\n\n`));
-            } catch (e) {
-                console.error(chalk.red('[PAIRING ERROR]'), e);
-            }
-        }, 3000);
-    } else {
-        console.log(chalk.red('[PAIRING] No phone number found. Please scan QR instead.'));
-    }
+if (!conn.authState.creds.registered) {
+    let phoneNumber = "967782114485";
+    phoneNumber = phoneNumber.replace(/[^0-9]/g, '');
+    console.log(chalk.cyan(`[PAIRING] Generating pairing code for: ${phoneNumber}`));
+    setTimeout(async () => {
+        try {
+            let code = await conn.requestPairingCode(phoneNumber);
+            code = code?.match(/.{1,4}/g)?.join("-") || code;
+            console.log(chalk.yellow.bold(`\n\nYOUR PAIRING CODE: ${code}\n\n`));
+        } catch (e) {
+            console.error(chalk.red('[PAIRING ERROR]'), e);
+        }
+    }, 3000);
 }
 
 let stopped = false;
