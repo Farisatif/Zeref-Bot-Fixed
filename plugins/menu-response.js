@@ -1,4 +1,4 @@
-import { menuSections } from './menu.js'
+import { menuSections, sections } from './menu.js'
 
 let handler = async (m, { conn }) => {
 
@@ -8,9 +8,14 @@ let handler = async (m, { conn }) => {
 
   const choice = m.text.trim()
 
-  if (!menuSections[choice]) return
-
-  const section = menuSections[choice]
+  let section = menuSections[choice]
+  if (!section) {
+    section = Object.values(menuSections).find(item => item.title === choice)
+  }
+  if (!section && sections[choice]) {
+    section = { text: sections[choice].text }
+  }
+  if (!section) return
 
   await conn.reply(
     m.chat,
@@ -22,7 +27,7 @@ let handler = async (m, { conn }) => {
   delete global.menuSessions[m.sender]
 }
 
-handler.customPrefix = /^[1-6]$/
+handler.customPrefix = /^([1-8]|📖 القرآن الكريم|🤖 الذكاء الاصطناعي|🎮 الألعاب|😄 ترفيه|🛠️ الأدوات|💰 الاقتصاد|📊 المعلومات|👑 أوامر المالك)$/
 handler.command = new RegExp
 
 export default handler

@@ -7,6 +7,7 @@ const LEVELS = [
   { ops: ['+', '-', '*'],         range: 100, reward: [280, 450], label: 'صعب 🔴'   },
   { ops: ['+', '-', '*', '/'],    range: 200, reward: [450, 700], label: 'خبير 🔥'  },
 ]
+const makeId = () => Math.random().toString(36).slice(2, 6).toUpperCase()
 
 function buildQ(lvl) {
   const { ops, range } = lvl
@@ -37,6 +38,7 @@ let handler = async (m, { conn, args, usedPrefix }) => {
   const lvlIdx  = Math.min(3, Math.max(0, parseInt(args[0]) - 1 || 0))
   const lvl     = LEVELS[lvlIdx]
   const q       = buildQ(lvl)
+  const id      = makeId()
   const reward  = Math.floor(Math.random() * (lvl.reward[1] - lvl.reward[0] + 1)) + lvl.reward[0]
   const xpBonus = [30, 60, 100, 180][lvlIdx]
 
@@ -52,13 +54,16 @@ let handler = async (m, { conn, args, usedPrefix }) => {
 │ 💰 الجائزة: ${fmt(reward)}
 │ ⭐ XP: +${xpBonus}
 │
-│ 💡 اكتب الإجابة فقط!
+│ 💡 للإجابة اكتب:
+│ *${usedPrefix}جواب ${id} الرقم*
+│ ويمكنك الرد على رسالة السؤال بالرقم مباشرة.
 ╰──────────────────`.trim()
 
   const sent = await conn.reply(m.chat, caption, m)
 
   conn.math[chatId] = {
     msg: sent,
+    id,
     question: q,
     reward,
     xpBonus,

@@ -314,8 +314,8 @@ conn.ev.on('messages.update', async (updates) => {
       if (!selected) continue;
 
       const sectionName = selected.name;
-      const { menuSections } = await import('./plugins/منيو.js');
-      const sectionFn = menuSections[sectionName];
+      const { menuPollSections } = await import('./plugins/menu.js');
+      const sectionFn = menuPollSections[sectionName];
       if (!sectionFn) continue;
 
       const text = sectionFn(meta.prefix);

@@ -6,6 +6,7 @@ const COIN_MIN  = 150
 const COIN_MAX  = 400
 const XP_BONUS  = 50
 const DIA_CHANCE = 0.05    // 5% chance for a diamond on correct answer
+const makeId = () => Math.random().toString(36).slice(2, 6).toUpperCase()
 
 let handler = async (m, { conn, usedPrefix }) => {
   conn.quiz = conn.quiz || {}
@@ -19,6 +20,7 @@ let handler = async (m, { conn, usedPrefix }) => {
 
   const questions = JSON.parse(fs.readFileSync('./src/game/acertijo.json'))
   const q = questions[Math.floor(Math.random() * questions.length)]
+  const id = makeId()
   const reward = Math.floor(Math.random() * (COIN_MAX - COIN_MIN + 1)) + COIN_MIN
 
   const caption =
@@ -30,13 +32,16 @@ let handler = async (m, { conn, usedPrefix }) => {
 │ 💰 الجائزة: ${fmt(reward)}
 │ ⭐ XP: +${XP_BONUS}
 │
-│ 💡 اكتب إجابتك في الدردشة!
+│ 💡 للإجابة اكتب:
+│ *${usedPrefix}جواب ${id} إجابتك*
+│ ويمكنك الرد على رسالة السؤال بالإجابة مباشرة.
 ╰──────────────────`.trim()
 
   const sent = await conn.reply(m.chat, caption, m)
 
   conn.quiz[chatId] = {
     msg: sent,
+    id,
     question: q,
     reward,
     timer: setTimeout(async () => {

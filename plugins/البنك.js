@@ -12,11 +12,13 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   if (!user) return m.reply('❌ سجّل أولاً باستخدام أي أمر.')
   initEconomy(user)
 
-  const sub = (args[0] || '').toLowerCase()
+  const directAction = /^(ايداع|ودع|deposit|سحب|withdraw|سح|تحويل|حول|transfer)$/i.test(command)
+  const sub = directAction ? command.toLowerCase() : (args[0] || '').toLowerCase()
+  const dataArgs = directAction ? args : args.slice(1)
 
   // ── .ايداع <amount> ──────────────────────────────────────────────────────
   if (/^(ايداع|ودع|deposit)$/i.test(sub)) {
-    const amount = parseInt(args[1])
+    const amount = parseInt(dataArgs[0])
     if (!amount || amount < 1) return m.reply(`*مثال:* ${usedPrefix}ايداع 500`)
     if (user.money < amount) return m.reply(`❌ ليس لديك ما يكفي!\n💰 محفظتك: ${fmt(user.money)}`)
     user.money -= amount
@@ -26,7 +28,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
   // ── .سحب <amount> ───────────────────────────────────────────────────────
   if (/^(سحب|withdraw|سح)$/i.test(sub)) {
-    const amount = parseInt(args[1])
+    const amount = parseInt(dataArgs[0])
     if (!amount || amount < 1) return m.reply(`*مثال:* ${usedPrefix}سحب 500`)
     if (user.bank < amount) return m.reply(`❌ رصيد بنكك غير كافٍ!\n🏦 البنك: ${fmt(user.bank)}`)
     user.bank -= amount
@@ -37,7 +39,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   // ── .تحويل @user <amount> ───────────────────────────────────────────────
   if (/^(تحويل|حول|transfer)$/i.test(sub)) {
     const target = m.mentionedJid?.[0] || (m.quoted?.sender)
-    const amount = parseInt(args[2] || args[1])
+    const amount = parseInt(dataArgs.find(arg => /^\d+$/.test(arg)) || args.find(arg => /^\d+$/.test(arg)))
     if (!target || !amount || amount < 1)
       return m.reply(`*مثال:* ${usedPrefix}تحويل @شخص 500\n📌 رسوم التحويل: 5٪`)
     if (target === m.sender) return m.reply('❌ لا يمكنك التحويل لنفسك.')

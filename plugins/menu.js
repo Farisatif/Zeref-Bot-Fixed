@@ -8,7 +8,7 @@ function clockString(ms) {
   return [h, m, s].map(v => v.toString().padStart(2, 0)).join(':')
 }
 
-const sections = {
+export const sections = {
   quran: {
     title: '📖 القرآن الكريم',
     text: (p) => `
@@ -34,7 +34,13 @@ ${p}شخصية          ⟵ تحليل شخصية أنيمي`.trim()
 *🎮 ─── الألعاب ───*
 
 ${p}سوال       ⟵ سؤال عشوائي (جائزة 💰)
+${p}جواب       ⟵ إجابة الأسئلة والتحديات
 ${p}تحدي       ⟵ تحدي رياضيات (جائزة 💰)
+${p}شطرنج      ⟵ لعبة شطرنج كاملة بين لاعبين
+${p}نرد        ⟵ رمي النرد
+${p}عملة       ⟵ ملك أو كتابة
+${p}اختار      ⟵ يختار لك من عدة خيارات
+${p}حجر        ⟵ حجر ورقة مقص ضد البوت
 ${p}رهان       ⟵ لعبة القمار (راهن بعملاتك 🎰)
 ${p}اكس        ⟵ إكس أو (Tic Tac Toe)
 ${p}لو         ⟵ لعبة لو خيروك
@@ -50,6 +56,10 @@ ${p}تخمين      ⟵ تخمين الشخصية`.trim()
 ${p}ذكاء       ⟵ نسبة ذكائك عشوائياً
 ${p}جمال       ⟵ نسبة جمالك عشوائياً
 ${p}حظ         ⟵ حظك اليوم
+${p}نرد        ⟵ نرد سريع للترفيه
+${p}عملة       ⟵ قرعة عشوائية
+${p}اختار      ⟵ اختيار عشوائي بين أشياء
+${p}حجر        ⟵ تحدي حجر ورقة مقص
 ${p}قلب        ⟵ رسالة قلب
 ${p}صراحه      ⟵ سؤال بصراحة
 ${p}نصيحه      ⟵ نصيحة عشوائية
@@ -79,9 +89,9 @@ ${p}زخرفه       ⟵ زخرفة أي نص`.trim()
 *💰 ─── الاقتصاد ───*
 
 ${p}البنك        ⟵ رصيدك ومحفظتك وطاقتك
-${p}ايداع        ⟵ إيداع عملات في البنك
-${p}سحب          ⟵ سحب عملات من البنك
-${p}تحويل        ⟵ تحويل لشخص آخر (5٪ رسوم)
+${p}ايداع 500    ⟵ إيداع عملات في البنك
+${p}سحب 500      ⟵ سحب عملات من البنك
+${p}تحويل @ش 500 ⟵ تحويل لشخص آخر (5٪ رسوم)
 ${p}عمل          ⟵ اعمل واكسب عملات (-10 طاقة)
 ${p}يومي         ⟵ مكافأة يومية مجانية
 ${p}طاقة         ⟵ حالة طاقتك ومعدل الشحن
@@ -113,8 +123,26 @@ ${p}البلوكات     ⟵ قائمة المحظورين
 ${p}تشغيل        ⟵ تشغيل البوت
 ${p}ايقاف        ⟵ إيقاف البوت
 ${p}إعادة        ⟵ إعادة تشغيل البوت`.trim()
+  },
+  all: {
+    title: '📜 كل الأوامر',
+    text: (p) => Object.values(sections)
+      .filter(section => section.title !== '📜 كل الأوامر')
+      .map(section => section.text(p))
+      .join('\n\n')
   }
 }
+
+export const menuSections = Object.fromEntries(
+  Object.entries(sections).map(([key, section], index) => [
+    String(index + 1),
+    { key, title: section.title, text: section.text }
+  ])
+)
+
+export const menuPollSections = Object.fromEntries(
+  Object.entries(sections).map(([, section]) => [section.title, section.text])
+)
 
 const pageOrder = [
   ['quran', 'ai', 'games'],
@@ -150,63 +178,32 @@ function buildStats(m, user, level, role, max, uptime) {
 ╚══〘 👇 اختر من الأزرار 〙══╝`.trim()
 }
 
-function buildPageButtons(pageIndex) {
-  const page = pageOrder[pageIndex] || pageOrder[0]
-  const buttons = []
-
-  for (const key of page) {
-    buttons.push({
-      buttonId: `menu_${key}`,
-      buttonText: { displayText: sections[key].title },
-      type: 1
-    })
-  }
-
-  if (pageIndex > 0) {
-    buttons.push({
-      buttonId: `menu_prev_${pageIndex}`,
-      buttonText: { displayText: '⬅️ السابق' },
-      type: 1
-    })
-  } else if (pageOrder.length > 1) {
-    buttons.push({
-      buttonId: `menu_next_${pageIndex}`,
-      buttonText: { displayText: 'التالي ➡️' },
-      type: 1
-    })
-  }
-
-  return buttons.slice(0, 3)
+function buildPageText(prefix) {
+  return Object.entries(menuSections)
+    .map(([num, section]) => `*${num}.* ${section.title}`)
+    .join('\n')
 }
 
-function buildPageText(pageIndex) {
-  const page = pageOrder[pageIndex] || pageOrder[0]
-  return page.map((key, i) => `*${i + 1}.* ${sections[key].title}`).join('\n')
-}
-
-function buildSectionButtons() {
-  return [
-    {
-      buttonId: 'menu_home',
-      buttonText: { displayText: '🏠 القائمة' },
-      type: 1
-    },
-    {
-      buttonId: 'menu_back',
-      buttonText: { displayText: '⬅️ رجوع' },
-      type: 1
+async function sendPage(conn, m, prefix, stats) {
+  const optionNames = Object.values(sections).map(section => section.title)
+  const text = `${stats}\n\n${buildPageText(prefix)}\n\nاختر من التصويت بالضغط على القسم، أو أرسل رقم القسم مثل: *1*\nلجميع الأوامر اختر: *📜 كل الأوامر*`
+  await conn.sendMessage(m.chat, { text }, { quoted: m })
+  const poll = await conn.sendMessage(m.chat, {
+    poll: {
+      name: '📋 قائمة SHADOW - اختر القسم',
+      values: optionNames,
+      selectableCount: 1
     }
-  ]
-}
-
-async function sendPage(conn, m, pageIndex, prefix, stats) {
-  const text = `${stats}\n\n${buildPageText(pageIndex)}\n\nاضغط على الزر فقط`
-  await conn.sendMessage(m.chat, {
-    text,
-    footer: 'SHADOW BOT',
-    buttons: buildPageButtons(pageIndex),
-    headerType: 1
   }, { quoted: m })
+  global.menuPolls = global.menuPolls || new Map()
+  if (poll?.key?.id) {
+    global.menuPolls.set(poll.key.id, {
+      chat: m.chat,
+      sender: m.sender,
+      prefix,
+      expires: Date.now() + 10 * 60 * 1000
+    })
+  }
 }
 
 async function sendSection(conn, m, sectionKey, prefix, stats) {
@@ -214,12 +211,7 @@ async function sendSection(conn, m, sectionKey, prefix, stats) {
   if (!section) return
 
   const text = `${stats}\n\n${section.text(prefix)}`
-  await conn.sendMessage(m.chat, {
-    text,
-    footer: 'SHADOW BOT',
-    buttons: buildSectionButtons(),
-    headerType: 1
-  }, { quoted: m })
+  await conn.sendMessage(m.chat, { text }, { quoted: m })
 }
 
 let handler = async (m, { conn, usedPrefix }) => {
@@ -239,14 +231,29 @@ let handler = async (m, { conn, usedPrefix }) => {
     ts: Date.now()
   }
 
-  await sendPage(conn, m, 0, usedPrefix, stats)
+  await sendPage(conn, m, usedPrefix, stats)
 }
 
-handler.command = /^(اوامر|أوامر|المهام|مهام|menu|قائمة)$/i
+handler.command = /^(اوامر|أوامر|الاوامر|الأوامر|كل_الاوامر|كل-الاوامر|المهام|مهام|menu|help|قائمة|القائمة|قائمه|القائمه)$/i
 handler.exp = 0
 handler.fail = null
 
 handler.before = async (m, { conn }) => {
+  const choice = (m.text || '').trim()
+  if (global.menuSessions?.[m.sender] && menuSections[choice]) {
+    const session = global.menuSessions[m.sender]
+    const prefix = session?.prefix || '.'
+    const user = global.db.data.users[m.sender] || {}
+    initEconomy(user)
+    syncEnergy(user)
+    const { level = 1, role = 'مستخدم' } = user
+    const { max } = xpRange(level, global.multiplier)
+    const uptime = clockString(process.uptime() * 1000)
+    const stats = buildStats(m, user, level, role, max, uptime)
+    await sendSection(conn, m, menuSections[choice].key, prefix, stats)
+    return true
+  }
+
   const btn = m.message?.buttonsResponseMessage?.selectedButtonId
   if (!btn) return false
 
@@ -265,7 +272,7 @@ handler.before = async (m, { conn }) => {
 
   if (btn === 'menu_home') {
     global.menuSessions[m.sender] = { prefix, page: 0, ts: Date.now() }
-    await sendPage(conn, m, 0, prefix, stats)
+    await sendPage(conn, m, prefix, stats)
     return true
   }
 
@@ -273,7 +280,7 @@ handler.before = async (m, { conn }) => {
     const page = session?.page || 0
     const prev = Math.max(0, page - 1)
     global.menuSessions[m.sender] = { prefix, page: prev, ts: Date.now() }
-    await sendPage(conn, m, prev, prefix, stats)
+    await sendPage(conn, m, prefix, stats)
     return true
   }
 
@@ -281,7 +288,7 @@ handler.before = async (m, { conn }) => {
     const current = Number(btn.split('_').pop() || 0)
     const next = Math.min(pageOrder.length - 1, current + 1)
     global.menuSessions[m.sender] = { prefix, page: next, ts: Date.now() }
-    await sendPage(conn, m, next, prefix, stats)
+    await sendPage(conn, m, prefix, stats)
     return true
   }
 
@@ -289,7 +296,7 @@ handler.before = async (m, { conn }) => {
     const current = Number(btn.split('_').pop() || 0)
     const prev = Math.max(0, current - 1)
     global.menuSessions[m.sender] = { prefix, page: prev, ts: Date.now() }
-    await sendPage(conn, m, prev, prefix, stats)
+    await sendPage(conn, m, prefix, stats)
     return true
   }
 

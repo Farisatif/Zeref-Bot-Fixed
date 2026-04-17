@@ -31,10 +31,10 @@ A comprehensive, multi-functional WhatsApp bot built with Node.js. Features AI r
 - Bot uses pairing code authentication (no QR scan needed)
 
 ## Interactive Menus
-WhatsApp's native buttons and list messages are blocked by Meta for unofficial clients.
-The bot uses **poll messages** (`pollCreationMessage`) as interactive navigation — users tap a poll option to receive that section's commands. This is handled by:
-- `plugins/منيو.js` — sends header image + stats + poll with 8 section options
-- `main.js` poll vote handler (`messages.update` event) — detects vote, replies with that section's commands
+WhatsApp's native buttons and list messages are unreliable for unofficial clients, so the bot uses **poll messages** plus numeric fallback as interactive navigation:
+- `plugins/menu.js` — sends stats, numbered menu sections, a full-command option, and a poll with all section options
+- `plugins/menu-response.js` — accepts numeric menu replies such as `1` through `9`
+- `main.js` poll vote handler (`messages.update` event) — detects the selected poll option and replies with that section's commands
 
 ## Running
 - Workflow: `node index.js` on port 3000
@@ -47,6 +47,10 @@ The bot uses **poll messages** (`pollCreationMessage`) as interactive navigation
 - Fixed `plugins/بلاغ.js` — removed duplicate wrong-JID conn.reply
 - Parallelized plugin loading in `main.js` with `Promise.all` for faster startup
 - Fixed user stats display (was showing `|undefined|undefined` for new users)
+- Fixed direct bank commands (`.ايداع 500`, `.سحب 500`, `.تحويل @شخص 500`) so they no longer fall through to bank stats.
+- Replaced old menu buttons with poll/options + number fallback to avoid missing button/list rendering.
+- Added explicit quiz answer command format: `.جواب <رمز السؤال> <الإجابة>`.
+- Added chess (`.شطرنج`) and quick entertainment games (`.نرد`, `.عملة`, `.اختار`, `.حجر`).
 
 ## Economy System (lib/economy.js)
 Full economy with rules, fees, and progression:
@@ -88,9 +92,10 @@ Full economy with rules, fees, and progression:
 ## Menu Sections
 1. 📖 القرآن الكريم — أذكار، آيات، قرآن
 2. 🤖 الذكاء الاصطناعي — AI/ChatGPT (يتطلب طاقة)
-3. 🎮 الألعاب — سؤال بجائزة، تحدي رياضيات، رهان، اكس او
-4. 😄 ترفيه — ذكاء، جمال، حظ، اقتباسات، حكم
+3. 🎮 الألعاب — سؤال بجائزة، جواب، تحدي رياضيات، شطرنج، نرد، عملة، اختار، حجر ورقة مقص، رهان، اكس او
+4. 😄 ترفيه — ذكاء، جمال، حظ، نرد، عملة، اختار، حجر ورقة مقص، اقتباسات، حكم
 5. 🛠️ الأدوات — ترجم، تذكير، منبه، QR، اختفاء (بعضها يتطلب طاقة)
 6. 💰 الاقتصاد — بنك، ايداع، سحب، تحويل، عمل، يومي، طاقة
 7. 📊 المعلومات — حالة البوت، توقيت، بلاغ، المالك
 8. 👑 أوامر المالك — صلاحيات كاملة
+9. 📜 كل الأوامر — يجمع جميع الأقسام في رسالة واحدة
