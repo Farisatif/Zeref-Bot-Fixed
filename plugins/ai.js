@@ -1,4 +1,4 @@
-import { OpenAI } from 'openai'
+import OpenAI from 'openai'
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
     if (!text) throw `*يرجى إدخال نص للبحث عنه*\n\n*مثال: ${usedPrefix + command} كيف حالك؟*`
