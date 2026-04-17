@@ -344,7 +344,39 @@ conn.ev.on('messages.update', async (updates) => {
 
 // ====== PLUGINS ======
 const pluginFolder = global.__dirname(join(__dirname, './plugins/index'));
-const pluginFilter = (filename) => /\.js$/.test(filename);
+const excludedPlugins = new Set([
+  'anime.js',
+  'جمال.js',
+  'ذكاء.js',
+  'حظ.js',
+  'قلب.js',
+  'صراحه.js',
+  'مقولات.js',
+  'قط.js',
+  'كلب.js',
+  'شخصية.js',
+  'حقوق.js',
+  'احرف.js',
+  'اختفاء.js',
+  'اختفاء2.js',
+  'انطقي.js',
+  'تفكيك.js',
+  'تجميع.js',
+  'حساب.js',
+  'حجره.js',
+  'رياضه.js',
+  'رابطي.js',
+  'علم2.js',
+  'زخرفه.js',
+  'زيريف.js',
+  'speak.js',
+  'mipilot-jadibot-parar.js',
+  'mipilot-serbot-info.js',
+  'owner-join.js',
+  'فتح_اغلاق.js',
+  'ملف.js'
+]);
+const pluginFilter = (filename) => /\.js$/.test(filename) && !excludedPlugins.has(filename);
 global.plugins = {};
 
 async function filesInit() {

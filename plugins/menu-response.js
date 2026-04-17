@@ -26,7 +26,7 @@ let handler = async (m, { conn }) => {
   if (global.menuSessions?.[m.sender]) delete global.menuSessions[m.sender]
 }
 
-handler.customPrefix = /^(10|[1-9]|١٠|[١-٩]|📖 القرآن الكريم|🤖 الذكاء الاصطناعي|🎮 الألعاب|😄 ترفيه|🛠️ الأدوات|💰 الاقتصاد|📊 المعلومات|👥 إدارة القروب|👑 أوامر المالك|📜 كل الأوامر)$/
+handler.customPrefix = /^(10|[1-9]|١٠|[١-٩]|۱۰|[۱-۹]|🎓 التعلم والدراسة|📖 القرآن الكريم|🤖 الذكاء الاصطناعي|🎮 الألعاب|🛠️ أدوات نافعة|💰 الاقتصاد|👤 الحساب والمعلومات|👥 إدارة القروب|👑 أوامر المالك|📜 كل الأقسام)$/
 handler.command = new RegExp
 
 export default handler

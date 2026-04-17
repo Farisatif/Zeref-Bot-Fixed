@@ -1408,7 +1408,7 @@
       "emas": 0,
       "emerald": 0,
       "esteh": 0,
-      "exp": 885,
+      "exp": 992,
       "expg": 0,
       "exphero": 0,
       "expired": 0,
@@ -1729,7 +1729,7 @@
         "step": null,
         "soal": null
       },
-      "lastCommandTime": 1776464656028,
+      "lastCommandTime": 1776465021688,
       "commandCount": 1,
       "premiumDate": -1,
       "catexp": 0,
@@ -2681,7 +2681,7 @@
       "emas": 0,
       "emerald": 0,
       "esteh": 0,
-      "exp": 538,
+      "exp": 630,
       "expg": 0,
       "exphero": 0,
       "expired": 0,
@@ -3003,7 +3003,7 @@
         "soal": null
       },
       "energy": 100,
-      "lastEnergyRegen": 1776464589387,
+      "lastEnergyRegen": 1776464949387,
       "lastDaily": 0,
       "lastWork": 0,
       "totalEarned": 0,
@@ -3031,7 +3031,7 @@
       "psepick": 0,
       "robo": 0,
       "roboxp": 0,
-      "lastCommandTime": 1776464655552,
+      "lastCommandTime": 1776465096030,
       "commandCount": 1
     },
     "204990769553546@lid": {
@@ -3126,7 +3126,7 @@
       "emas": 0,
       "emerald": 0,
       "esteh": 0,
-      "exp": 282,
+      "exp": 569,
       "expg": 0,
       "exphero": 0,
       "expired": 0,
@@ -3476,7 +3476,7 @@
       "psepick": 0,
       "robo": 0,
       "roboxp": 0,
-      "lastCommandTime": 1776464430440,
+      "lastCommandTime": 1776465006899,
       "commandCount": 1
     }
   },
@@ -3670,10 +3670,10 @@
       "lastSuccess": 1749115644807
     },
     "reminder.js": {
-      "total": 9,
-      "success": 9,
-      "last": 1749092419391,
-      "lastSuccess": 1749092419391
+      "total": 10,
+      "success": 10,
+      "last": 1776465096325,
+      "lastSuccess": 1776465096325
     },
     "قائمه.js": {
       "total": 7,
@@ -3700,10 +3700,10 @@
       "lastSuccess": 1749092622633
     },
     "انطقي.js": {
-      "total": 9,
-      "success": 5,
-      "last": 1776463714382,
-      "lastSuccess": 1776463714382
+      "total": 11,
+      "success": 7,
+      "last": 1776465008349,
+      "lastSuccess": 1776465008349
     },
     "زيريف.js": {
       "total": 21,
@@ -3970,10 +3970,10 @@
       "lastSuccess": 1749102537012
     },
     "منبه.js": {
-      "total": 6,
-      "success": 6,
-      "last": 1749102515674,
-      "lastSuccess": 1749102515674
+      "total": 7,
+      "success": 7,
+      "last": 1776465056078,
+      "lastSuccess": 1776465056078
     },
     "منشني.js": {
       "total": 2,
@@ -3982,10 +3982,10 @@
       "lastSuccess": 1749102560535
     },
     "اذكار الصباح.js": {
-      "total": 6,
-      "success": 6,
-      "last": 1776464345145,
-      "lastSuccess": 1776464345145
+      "total": 8,
+      "success": 8,
+      "last": 1776465021689,
+      "lastSuccess": 1776465021689
     },
     "أعادة.js": {
       "total": 3,
@@ -4216,16 +4216,16 @@
       "lastSuccess": 1749115617736
     },
     "menu.js": {
-      "total": 7,
-      "success": 7,
-      "last": 1776464637944,
-      "lastSuccess": 1776464637944
+      "total": 8,
+      "success": 8,
+      "last": 1776465013898,
+      "lastSuccess": 1776465013898
     },
     "menu-response.js": {
-      "total": 9,
-      "success": 9,
-      "last": 1776464645246,
-      "lastSuccess": 1776464645246
+      "total": 10,
+      "success": 10,
+      "last": 1776465021583,
+      "lastSuccess": 1776465021583
     },
     "security.js": {
       "total": 2,

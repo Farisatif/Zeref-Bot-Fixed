@@ -12,7 +12,18 @@ import chalk from 'chalk'
  */
 const { proto } = (await import('@whiskeysockets/baileys')).default
 const isNumber = x => typeof x === 'number' && !isNaN(x)
-const jidOf = x => typeof x === 'string' ? x : (x?.id || x?.jid || x?.lid || x?.participant || '')
+const jidOf = x => {
+    if (typeof x === 'string') {
+        if (x.trim().startsWith('{')) {
+            try {
+                const parsed = JSON.parse(x)
+                return parsed.phoneNumber || parsed.jid || parsed.id || parsed.lid || ''
+            } catch (_) {}
+        }
+        return x
+    }
+    return x?.phoneNumber || x?.id || x?.jid || x?.lid || x?.participant || ''
+}
 const delay = ms => isNumber(ms) && new Promise(resolve => setTimeout(function () {
     clearTimeout(this)
     resolve()
