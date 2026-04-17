@@ -1,143 +1,165 @@
-import fs from 'fs'
-import fetch from 'node-fetch'
 import { xpRange } from '../lib/levelling.js'
-const { levelling } = '../lib/levelling.js'
 import PhoneNumber from 'awesome-phonenumber'
-import { promises } from 'fs'
-import { join } from 'path'
-let handler = async (m, { conn, usedPrefix, usedPrefix: _p, __dirname, text, isPrems }) => {
- await conn.sendMessage(m.chat, { react: { text: '📑', key: m.key } })
-try {
-let vn = './media/1.mp3'
-let pp = imagen4
-let img = await(await fetch('https://telegra.ph/file/d7ae77d1178f9de50825c.jpg')).buffer()
-let d = new Date(new Date + 3600000)
-let locale = 'ar'
-let week = d.toLocaleDateString(locale, { weekday: 'long' })
-let date = d.toLocaleDateString(locale, { day: 'numeric', month: 'long', year: 'numeric' })
-let _uptime = process.uptime() * 1000
-let uptime = clockString(_uptime)
-let user = global.db.data.users[m.sender]
-let { money, joincount } = global.db.data.users[m.sender]
-let { exp, limit, level, role } = global.db.data.users[m.sender]
-let { min, xp, max } = xpRange(level, global.multiplier)
-let rtotalreg = Object.values(global.db.data.users).filter(user => user.registered == true).length 
-let more = String.fromCharCode(8206)
-let readMore = more.repeat(850)   
-let taguser = '@' + m.sender.split("@s.whatsapp.net")[0]
-let str = `
-◎ ─━──━─𝑺𝒉𝒂𝒅𝒐𝒘─━──━─ ◎
 
-*جـعلك تحـتاج هـذه القـائمة جـزء مـن خطـتي ..*
+function clockString(ms) {
+  let h = isNaN(ms) ? '--' : Math.floor(ms / 3600000)
+  let m = isNaN(ms) ? '--' : Math.floor(ms / 60000) % 60
+  let s = isNaN(ms) ? '--' : Math.floor(ms / 1000) % 60
+  return [h, m, s].map(v => v.toString().padStart(2, 0)).join(':')
+}
 
-*أهـ♕ـلا ي بـوت .. معـك شـادو ..✎*
+let handler = async (m, { conn, usedPrefix }) => {
+  await conn.sendMessage(m.chat, { react: { text: '📋', key: m.key } })
 
- ◎ ─━──━─⊰ ✎ ⊱─━──━─ ◎
+  const user = global.db.data.users[m.sender] || {}
+  const { exp = 0, limit = 0, level = 1, role = 'مستخدم', money = 0, diamond = 0 } = user
+  const { min, xp, max } = xpRange(level, global.multiplier)
+  const uptime = clockString(process.uptime() * 1000)
+  const d = new Date(Date.now() + 3600000)
+  const date = d.toLocaleDateString('ar', { day: 'numeric', month: 'long', year: 'numeric' })
+  const pn = PhoneNumber('+' + m.sender.split('@')[0])
+  const name = m.pushName || 'مستخدم'
 
-*✗قسم القرأن ..*
+  const p = usedPrefix
 
- ◎ ─━──━─⊰ ♜ ⊱─━──━─ ◎
+  const headerText = `
+╔═══════════════════════╗
+║   🌟  𝗦𝗛𝗔𝗗𝗢𝗪 - 𝗕𝗼𝘁  🌟   ║
+╚═══════════════════════╝
 
-*⚡️.اذكار الصباح ↫يجيبلك اذكار الصباح*
+👤 *${name}*
+🏆 المستوى: *${level}* | الرتبة: *${role}*
+⭐ XP: *${xp}/${max}*
+🪙 عملات: *${limit}* | 💎 ماس: *${diamond || 0}*
+⏱️ وقت التشغيل: *${uptime}*
+📅 *${date}*
 
-*⚡️.اذكار المساء ↫يجيبلك اذكار المساء*
+👇 اضغط على الزر لعرض الأوامر`.trim()
 
-*⚡️.آيه ↫يجيبلك ايه من القران الكريم*
+  const listSections = [
+    [
+      '📖 القرآن الكريم',
+      [
+        ['اذكار الصباح', `${p}اذكار الصباح`, 'أذكار الصباح اليومية'],
+        ['اذكار المساء', `${p}اذكار المساء`, 'أذكار المساء اليومية'],
+        ['آية الكرسي', `${p}ايه`, 'إرسال آية الكرسي'],
+        ['آية عشوائية', `${p}قران`, 'آية عشوائية من القرآن الكريم'],
+      ]
+    ],
+    [
+      '🤖 الذكاء الاصطناعي',
+      [
+        ['محادثة AI', `${p}ai`, 'التحدث مع الذكاء الاصطناعي'],
+        ['رفع الجودة', `${p}جوده`, 'رفع جودة الصورة بالذكاء الاصطناعي'],
+        ['شخصية أنيمي', `${p}شخصية`, 'خمّن الشخصية وحللها'],
+      ]
+    ],
+    [
+      '🎮 الألعاب والتسلية',
+      [
+        ['إكس أو', `${p}اكس`, 'لعبة إكس أو - Tic Tac Toe'],
+        ['لو خيروك', `${p}لو`, 'أسئلة لو خيروك'],
+        ['فزورة', `${p}فزوره`, 'فزورة عشوائية'],
+        ['رياضيات', `${p}رياضيات`, 'تحدي رياضيات'],
+        ['رياضة', `${p}رياضه`, 'لعبة رياضة'],
+        ['سؤال', `${p}سوال`, 'سؤال عشوائي'],
+        ['علم', `${p}علم`, 'خمّن العلم'],
+        ['رهان', `${p}رهان`, 'لعبة الرهان - Slot'],
+        ['تخمين', `${p}تخمين`, 'تخمين الشخصية'],
+        ['خمن', `${p}خمن`, 'خمن الجواب'],
+      ]
+    ],
+    [
+      '😄 ترفيه وطرائف',
+      [
+        ['نسبة الذكاء', `${p}ذكاء`, 'احسب نسبة ذكائك عشوائياً'],
+        ['نسبة الجمال', `${p}جمال`, 'احسب نسبة جمالك عشوائياً'],
+        ['حظ', `${p}حظ`, 'نسبة حظك اليوم'],
+        ['قلب', `${p}قلب`, 'رسالة قلب'],
+        ['صراحة', `${p}صراحه`, 'سؤال بصراحة'],
+        ['نصيحة', `${p}نصيحه`, 'نصيحة عشوائية'],
+        ['مقولات', `${p}مقولات`, 'اقتباسات أنيمي'],
+        ['احرف', `${p}احرف`, 'زخرفة الأحرف'],
+        ['زخرفة', `${p}زخرفه`, 'زخرف أي نص'],
+        ['صور قطط', `${p}قط`, 'صور قطط عشوائية'],
+        ['صور كلاب', `${p}كلب`, 'صور كلاب عشوائية'],
+        ['أنيمي', `${p}انمي`, 'بحث عن أنيمي'],
+      ]
+    ],
+    [
+      '🛠️ أدوات',
+      [
+        ['ترجمة', `${p}ترجم`, 'ترجمة أي نص'],
+        ['تذكير', `${p}ذكرني`, 'ضبط تذكير'],
+        ['تذكيراتي', `${p}قائمتي`, 'عرض قائمة تذكيراتي'],
+        ['منبه', `${p}منبه`, 'ضبط منبه'],
+        ['QR كود', `${p}كود`, 'توليد QR Code'],
+        ['حذف رسالة', `${p}احذف`, 'حذف رسالة'],
+        ['إرسال رد', `${p}ارسل_ورد`, 'إرسال رسالة خاصة'],
+        ['اختفاء', `${p}اختفاء`, 'وضع الاختفاء AFK'],
+        ['حساب', `${p}حساب`, 'عمليات حسابية'],
+      ]
+    ],
+    [
+      '💰 الاقتصاد',
+      [
+        ['رصيدي', `${p}البنك`, 'عرض رصيدك ومستواك'],
+        ['عمل', `${p}عمل`, 'اعمل واحصل على عملات'],
+        ['مستواي', `${p}لفل`, 'عرض مستواك التفصيلي'],
+        ['شراء ماس', `${p}شراء-الماس`, 'شراء الماس بالعملات'],
+        ['شراء عملات', `${p}شراء`, 'شراء عملات إضافية'],
+      ]
+    ],
+    [
+      '📊 معلومات',
+      [
+        ['حالة البوت', `${p}الضعوم`, 'إحصائيات وحالة البوت'],
+        ['التوقيت', `${p}التوقيت`, 'التوقيت الحالي'],
+        ['رابطي', `${p}رابطي`, 'رابط واتساب الخاص بك'],
+        ['بلاغ', `${p}بلاغ`, 'إرسال بلاغ للمالك'],
+        ['المالك', `${p}المالك`, 'معلومات مالك البوت'],
+      ]
+    ],
+    [
+      '👑 أوامر المالك',
+      [
+        ['إضافة مميز', `${p}addprem`, 'إضافة مستخدم مميز'],
+        ['قائمة المميزين', `${p}المميزين`, 'عرض المستخدمين المميزين'],
+        ['حظر مستخدم', `${p}بان`, 'حظر مستخدم'],
+        ['رفع الحظر', `${p}رفع-البان`, 'رفع الحظر عن مستخدم'],
+        ['فك البلوكات', `${p}فك_البلوكات`, 'فك جميع البلوكات'],
+        ['قائمة البلوك', `${p}البلوكات`, 'عرض قائمة البلوكات'],
+        ['تشغيل / إيقاف', `${p}تشغيل`, 'تشغيل أو إيقاف البوت'],
+        ['إعادة تشغيل', `${p}إعادة`, 'إعادة تشغيل البوت'],
+      ]
+    ]
+  ]
 
-*⚡️.ايه ↫يجيب لك آية الكرسي*
+  try {
+    await conn.sendMessage(m.chat, {
+      image: global.imagen4,
+      caption: headerText,
+      mentions: [m.sender],
+      footer: global.wm,
+    }, { quoted: m })
 
- ◎ ─━──━─⊰ ✎ ⊱─━──━─ ◎
+    await conn.sendList(
+      m.chat,
+      '🤖 قائمة أوامر SHADOW Bot',
+      `مرحباً *${name}* 👋\nاختر قسماً من الأقسام التالية لعرض الأوامر:`,
+      `${global.wm} • اكتب الأمر لتشغيله`,
+      '📋 عرض الأوامر',
+      null,
+      listSections,
+      m
+    )
+  } catch (e) {
+    console.error('[MENU ERROR]', e)
+    await conn.reply(m.chat, headerText + '\n\n❌ تعذّر إرسال القائمة التفاعلية، يرجى المحاولة مرة أخرى.', m)
+  }
+}
 
-*✗ قسم التسليه ..*
-
- ◎ ─━──━─⊰ ♤ ⊱─━──━─ ◎
-
-*🕹️.(لو) ↫يسالك اي سؤال بدون النقطه*
-
-*🕹️.اكس_او ↫يجيب لك لعبه اكس او تيك تاك تو*
-
-*🕹️.احذف اللعبه/ ديليت/dlttt. ↫يحذف البوت اكس او*
-
-*🕹️.لو ↫يسالك اسئله لو خيروك*
-
-*🕹️.سؤال ↫يسالك اي سؤال*
-
-*🕹️.تاج ↫يقول لك اي جمله*
-
-*🕹️.ذكاء ↫يجيب نسبه الذكاء عشوائي ل اي شخص*
-
-*🕹️.الحب ↫يجيب نسبه الحب ل اي شخص*
-
-*🕹️.مقولات ↫الحصول علي اقتباسات انمي*
-
-*🕹️.حظي ↫يطلع نسبه حظك عشوائي*
-
-*↫🕹️.الجمال ↫يجيب نسبه الجمال عشوائي*
-
-*🕹️.نصيحه↫يقول لك اى حاجه*
-
-*🕹️.شخصيه ↫يجبلك صوره انمي وتحذر اسمها*
-
-*🕹️.الرياضيات ↫لعبه رياضيات*
-
-*🕹️.جمع ↫يجبلك اسماء شخصيات مفككه و انت تجمعها*
-
-*🕹️.فكك ↫يجبلك اسماء شخصيات وانت تفككها*
- 
- ◎ ─━──━─⊰ ✎ ⊱─━──━─ ◎
- 
-*✗ قسـم التنزيل ..*
-
- ◎ ─━──━─⊰ ♟ ⊱─━──━─ ◎
-
-*✉️.قط ↫صور لقطط عشوائيه*
-
-*✉️.كلب ↫صور لكلاب عشوائيه*
-
- ◎ ─━──━─⊰ ✎ ⊱─━──━─ ◎
-
-*✗قسـم التحـويل آلـي*
-
- ◎ ─━──━─⊰ ♧ ⊱─━──━─ ◎
-
-*⚙️.سرقه/حقوق↫يسرق لك اي ملصق لحقوقك*
-
-*⚙️.ترجم↫يترجم لك اي كلمه*
-
-*⚙️.بوت/ai↫التحدث مع الذكاء الاصطناعي*
-	
-	 ◎ ─━──━─⊰ ✎ ⊱─━──━─ ◎
-*~⌬ تـ✍︎ـوقيعي/*
-*~آس؁تــا~*
-`.trim()
-let buttonMessage = {
-image: pp,
-caption: str.trim(),
-mentions: [m.sender],
-footer: `${wm}`,
-headerType: 4,
-contextInfo: {
-mentionedJid: [m.sender],
-externalAdReply: {
-showAdAttribution: true,
-mediaType: 'VIDEO',
-mediaUrl: null,
-title: '『┇𝐒𝐇𝐀𝐃𝐎𝐖_Bot┇』',
-body: null,
-thumbnail: img,
-sourceUrl: `https://telegra.ph/file/d7ae77d1178f9de50825c.jpg`
-}}}
-conn.sendMessage(m.chat, buttonMessage, { quoted: m })
-//await conn.sendFile(m.chat, vn, 'menu.mp3', null, m, true, { type: 'audioMessage', ptt: true})
-} catch {
-conn.reply(m.chat, '[❗𝐈𝐍𝐅𝐎❗] 𝙴𝙻 𝙼𝙴𝙽𝚄 𝚃𝙸𝙴𝙽𝙴 𝚄𝙽 𝙴𝚁𝚁𝙾𝚁 𝚈 𝙽𝙾 𝙵𝚄𝙴 𝙿𝙾𝚂𝙸𝙱𝙻𝙴 𝙴𝙽𝚅𝙸𝙰𝚁𝙻𝙾, 𝚁𝙴𝙿𝙾𝚁𝚃𝙴𝙻𝙾 𝙰𝙻 𝙿𝚁𝙾𝙿𝙸𝙴𝚃𝙰𝚁𝙸𝙾 𝙳𝙴𝙻 𝙱𝙾𝚃', m)
-}}
-handler.command = /^(اوامر|أوامر|المهام|مهام)$/i
-handler.exp = 50
+handler.command = /^(اوامر|أوامر|المهام|مهام|menu|قائمة)$/i
+handler.exp = 0
 handler.fail = null
 export default handler
-function clockString(ms) {
-let h = isNaN(ms) ? '--' : Math.floor(ms / 3600000)
-let m = isNaN(ms) ? '--' : Math.floor(ms / 60000) % 60
-let s = isNaN(ms) ? '--' : Math.floor(ms / 1000) % 60
-return [h, m, s].map(v => v.toString().padStart(2, 0)).join(':')}
