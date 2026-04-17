@@ -1,4 +1,5 @@
 import { xpRange } from '../lib/levelling.js'
+import { syncEnergy, initEconomy } from '../lib/economy.js'
 import fetch from 'node-fetch'
 
 function clockString(ms) {
@@ -28,16 +29,14 @@ export const menuSections = {
   '🎮 الألعاب': (p) => `
 *🎮 ─── الألعاب ───*
 
+  ${p}سوال       ⟵ سؤال عشوائي (جائزة 💰)
+  ${p}تحدي       ⟵ تحدي رياضيات (جائزة 💰)
+  ${p}رهان       ⟵ لعبة القمار (راهن بعملاتك 🎰)
   ${p}اكس        ⟵ إكس أو (Tic Tac Toe)
   ${p}لو         ⟵ لعبة لو خيروك
   ${p}فزوره      ⟵ فزورة عشوائية
-  ${p}رياضيات    ⟵ تحدي رياضيات
-  ${p}رياضه      ⟵ لعبة رياضة
-  ${p}سوال       ⟵ سؤال عشوائي
   ${p}علم        ⟵ خمّن علم الدولة
-  ${p}رهان       ⟵ لعبة الرهان (Slot)
-  ${p}تخمين      ⟵ تخمين الشخصية
-  ${p}خمن        ⟵ خمّن الجواب`.trim(),
+  ${p}تخمين      ⟵ تخمين الشخصية`.trim(),
 
   '😄 ترفيه': (p) => `
 *😄 ─── ترفيه وطرائف ───*
@@ -69,10 +68,14 @@ export const menuSections = {
   '💰 الاقتصاد': (p) => `
 *💰 ─── الاقتصاد ───*
 
-  ${p}البنك        ⟵ رصيدك ومستواك الحالي
-  ${p}عمل          ⟵ اعمل واحصل على عملات
-  ${p}لفل          ⟵ تفاصيل مستواك والـ XP
-  ${p}شراء         ⟵ شراء عملات إضافية`.trim(),
+  ${p}البنك        ⟵ رصيدك ومحفظتك وطاقتك
+  ${p}ايداع        ⟵ إيداع عملات في البنك
+  ${p}سحب          ⟵ سحب عملات من البنك
+  ${p}تحويل        ⟵ تحويل لشخص آخر (5٪ رسوم)
+  ${p}عمل          ⟵ اعمل واكسب عملات (-10 طاقة)
+  ${p}يومي         ⟵ مكافأة يومية مجانية
+  ${p}طاقة         ⟵ حالة طاقتك ومعدل الشحن
+  ${p}لفل          ⟵ ارفع مستواك`.trim(),
 
   '📊 المعلومات': (p) => `
 *📊 ─── المعلومات ───*
@@ -103,18 +106,34 @@ let handler = async (m, { conn, usedPrefix }) => {
   await conn.sendMessage(m.chat, { react: { text: '📋', key: m.key } })
 
   const user = global.db.data.users[m.sender] || {}
+  initEconomy(user)
+  syncEnergy(user)
   const { limit = 0, level = 1, role = 'مستخدم', diamond = 0 } = user
-  const { xp, max } = xpRange(level, global.multiplier)
+  const { max } = xpRange(level, global.multiplier)
   const uptime = clockString(process.uptime() * 1000)
   const name = m.pushName || 'مستخدم'
+
+  const money  = user.money  || 0
+  const bank   = user.bank   || 0
+  const energy = typeof user.energy === 'number' ? user.energy : 100
+  const epct   = Math.floor((energy / 100) * 10)
+  const ebar   = '█'.repeat(epct) + '░'.repeat(10 - epct)
 
   const stats = `
 ╔══〘 🌟 *SHADOW - Bot* 🌟 〙══╗
 ║
 ║  👤 *${name}*
-║  🏆 المستوى: *${level}* │ الرتبة: *${role}*
-║  ⭐ XP: *${xp} / ${max}*
-║  🪙 عملات: *${limit}* │ 💎 ماس: *${diamond || 0}*
+║  🏆 المستوى: *${level}* │ ${role}
+║  ⭐ XP: *${user.exp || 0} / ${max}*
+║
+║  ─── الأموال ───
+║  💰 محفظة: *${money.toLocaleString('en')} 🪙*
+║  🏦 بنك:   *${bank.toLocaleString('en')} 🪙*
+║  💎 ماس:   *${diamond || 0}*
+║
+║  ─── الطاقة ───
+║  ${ebar} ${energy}/100 ⚡
+║
 ║  ⏱️ وقت التشغيل: *${uptime}*
 ║
 ╚══〘 👇 اختر القسم من التصويت 〙══╝`.trim()

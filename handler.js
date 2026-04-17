@@ -65,7 +65,15 @@ try {
                 if (!('premium' in user)) user.premium = false
                 if (!isNumber(user.joincount)) user.joincount = 2   
                 if (!isNumber(user.limit)) user.limit = 20
-                if (!isNumber(user.money)) user.money = 15             
+                if (!isNumber(user.money)) user.money = 100
+                if (!isNumber(user.bank)) user.bank = 0
+                if (!isNumber(user.diamond)) user.diamond = 0
+                if (!isNumber(user.energy)) user.energy = 100
+                if (!isNumber(user.lastEnergyRegen)) user.lastEnergyRegen = Date.now()
+                if (!isNumber(user.lastDaily)) user.lastDaily = 0
+                if (!isNumber(user.lastWork)) user.lastWork = 0
+                if (!isNumber(user.totalEarned)) user.totalEarned = 0
+                if (!isNumber(user.totalSpent)) user.totalSpent = 0
                 if (!('registered' in user)) user.registered = false
             if (!user.registered) {
                 if (!('name' in user)) user.name = m.name
@@ -368,7 +376,13 @@ try {
                 if (!isNumber(user.makananserigala)) user.makananserigala = 0
                 if (!isNumber(user.mana)) user.mana = 0
                 if (!isNumber(user.mangga)) user.mangga = 0
-                if (!isNumber(user.money)) user.money = 15
+                if (!isNumber(user.money)) user.money = 100
+                if (!isNumber(user.energy)) user.energy = 100
+                if (!isNumber(user.lastEnergyRegen)) user.lastEnergyRegen = Date.now()
+                if (!isNumber(user.lastDaily)) user.lastDaily = 0
+                if (!isNumber(user.lastWork)) user.lastWork = 0
+                if (!isNumber(user.totalEarned)) user.totalEarned = 0
+                if (!isNumber(user.totalSpent)) user.totalSpent = 0
                 if (!isNumber(user.monyet)) user.monyet = 0
                 if (!isNumber(user.mythic)) user.mythic = 0
                 if (!isNumber(user.naga)) user.naga = 0

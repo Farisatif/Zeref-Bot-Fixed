@@ -1,84 +1,71 @@
-//import db from '../lib/database.js'
-let reg = 40
+import { fmt, initEconomy, msToHuman } from '../lib/economy.js'
+
+const SLOT_COOLDOWN = 15 * 1000  // 15 seconds
+const MIN_BET       = 50
+
 let handler = async (m, { conn, args, usedPrefix, command }) => {
-    let fa = `
-كم تريد أن تراهن؟ 
+  const user = global.db.data.users[m.sender]
+  if (!user) return m.reply('❌ أرسل أي أمر أولاً لتسجيل حسابك.')
+  initEconomy(user)
 
-📌 مثال :
-*${usedPrefix + command}* 100`.trim()
-    if (!args[0]) throw fa
-    if (isNaN(args[0])) throw fa
-    let apuesta = parseInt(args[0])
-    let users = global.db.data.users[m.sender]
-    let time = users.lastslot + 10000
-    if (new Date - users.lastslot < 10000) throw `⏳ إنتظر *${msToTime(time - new Date())}* للاستخدام مرة أخرى`
-    if (apuesta < 100) throw '✳️ الحد الأدنى للرهان هو *100 يا فقير XP*'
-    if (users.exp < apuesta) {
-        throw `✳️ ليس لديك.خبرة هه توقعت ذلكxp`
-    }
-
-    let emojis = ["🕊️", "🦀", "🦎"];
-    let a = Math.floor(Math.random() * emojis.length);
-    let b = Math.floor(Math.random() * emojis.length);
-    let c = Math.floor(Math.random() * emojis.length);
-    let x = [],
-        y = [],
-        z = [];
-    for (let i = 0; i < 3; i++) {
-        x[i] = emojis[a];
-        a++;
-        if (a == emojis.length) a = 0;
-    }
-    for (let i = 0; i < 3; i++) {
-        y[i] = emojis[b];
-        b++;
-        if (b == emojis.length) b = 0;
-    }
-    for (let i = 0; i < 3; i++) {
-        z[i] = emojis[c];
-        c++;
-        if (c == emojis.length) c = 0;
-    }
-    let end;
-    if (a == b && b == c) {
-        end = ` لدينا بااكاا🎁 فائر\n *+${apuesta + apuesta} XP*`
-        users.exp += apuesta + apuesta
-    } else if (a == b || a == c || b == c) {
-        end = `🔮 كدت تجعلها تربح تستمر في المحاولة :) \nالنتيجة *+${reg} XP*`
-        users.exp += reg
-    } else {
-        end = `😔 لقد خسرت يا بااكاا  *-${apuesta} XP*`
-        users.exp -= apuesta
-    }
-    users.lastslot = new Date * 1
-    return await m.reply(
-        `
-       🎰 ┃ *رهان كاذب* 
-     ───────────
-       ${x[0]} : ${y[0]} : ${z[0]}
-       ${x[1]} : ${y[1]} : ${z[1]}
-       ${x[2]} : ${y[2]} : ${z[2]}
-     ───────────
-        🎰┃🎰┃ 🎰
-        *الرهان شيء محرم في دين الاسلام لاكن هذه مجرد لعبة لا خسرة او ربح حقيقي*
-        
-${end}`) 
-}
-handler.help = ['slot <bet amount>']
-handler.tags = ['game']
-handler.command = ['slot','رهان']
-
-export default handler
-
-function msToTime(duration) {
-    var milliseconds = parseInt((duration % 1000) / 100),
-        seconds = Math.floor((duration / 1000) % 60),
-        minutes = Math.floor((duration / (1000 * 60)) % 60),
-        hours = Math.floor((duration / (1000 * 60 * 60)) % 24)
-
-    hours = (hours < 10) ? "0" + hours : hours
-    minutes = (minutes < 10) ? "0" + minutes : minutes
-    seconds = (seconds < 10) ? "0" + seconds : seconds
-
-    return seconds + " Seconds(s)"
+  if (!args[0] || isNaN(args[0])) {
+    return m.reply(
+      `╭────『 🎰 الرهان 』────\n│\n│ كم تريد أن تراهن؟\n│\n│ 📌 مثال:\n│   *${usedPrefix + command} 200*\n│\n│ ─── القواعد ───\n│ 🎯 الحد الأدنى: ${MIN_BET} 🪙\n│ 3 رموز متطابقة → ×3 ربح 🏆\n│ 2 رموز متطابقة → استرداد + 10٪ 🎁\n│ لا تطابق → خسارة الرهان ❌\n│ ⏰ كولداون: 15 ثانية\n│\n│ ⚠️ *هذه مجرد لعبة ترفيهية*\n│\n╰──────────────────`.trim()
+    )
   }
+
+  const bet = parseInt(args[0])
+
+  if (bet < MIN_BET)
+    return m.reply(`❌ الحد الأدنى للرهان هو *${MIN_BET} 🪙*`)
+
+  if (user.money < bet)
+    return m.reply(`❌ رصيدك غير كافٍ!\n💰 محفظتك: ${fmt(user.money)}`)
+
+  const now  = Date.now()
+  const last = user.lastslot || 0
+  const rem  = SLOT_COOLDOWN - (now - last)
+  if (rem > 0) return m.reply(`⏳ انتظر *${msToHuman(rem)}* قبل الرهان مجدداً.`)
+
+  const emojis  = ['🎯', '💎', '🔮', '🌟', '🎪', '🦋']
+  const roll    = () => emojis[Math.floor(Math.random() * emojis.length)]
+  const [a, b, c] = [roll(), roll(), roll()]
+
+  let result, winMsg
+  if (a === b && b === c) {
+    const prize = bet * 3
+    user.money += prize
+    user.totalEarned = (user.totalEarned || 0) + prize
+    result  = prize
+    winMsg  = `🏆 *فوز كبير! جاك باكبوت!*\n│ 💰 ربحت: ${fmt(prize)} (×3)`
+  } else if (a === b || b === c || a === c) {
+    const prize = Math.floor(bet * 1.1)
+    user.money += prize
+    result  = prize
+    winMsg  = `🎁 *تطابق جزئي!*\n│ 💰 استردّيت: ${fmt(prize)}`
+  } else {
+    user.money -= bet
+    user.totalSpent = (user.totalSpent || 0) + bet
+    result  = -bet
+    winMsg  = `❌ *خسرت الرهان!*\n│ 💸 خسرت: ${fmt(bet)}`
+  }
+
+  user.lastslot = now
+
+  await m.reply(
+`╭────『 🎰 ماكينة الحظ 』────
+│
+│   ${a} │ ${b} │ ${c}
+│
+│ ${winMsg}
+│ 💰 رصيدك الآن: ${fmt(user.money)}
+│
+│ ⚠️ هذه مجرد لعبة ترفيهية افتراضية
+╰──────────────────`.trim()
+  )
+}
+
+handler.help    = ['رهان', 'slot']
+handler.tags    = ['game']
+handler.command = /^(slot|رهان|القمار)$/i
+export default handler

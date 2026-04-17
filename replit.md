@@ -48,12 +48,49 @@ The bot uses **poll messages** (`pollCreationMessage`) as interactive navigation
 - Parallelized plugin loading in `main.js` with `Promise.all` for faster startup
 - Fixed user stats display (was showing `|undefined|undefined` for new users)
 
+## Economy System (lib/economy.js)
+Full economy with rules, fees, and progression:
+
+### Currencies
+- **💰 `money`** — main wallet coins (start: 100)
+- **🏦 `bank`** — bank savings, safe from gambling (start: 0)
+- **💎 `diamond`** — rare premium currency (from daily 10% chance, quiz 5% chance)
+- **⭐ `exp`** — XP for leveling up (from work, quiz, daily)
+
+### Energy System (⚡)
+- Max: 100 energy per user
+- Auto-regens: +1 energy every 3 minutes (full tank in 5 hours)
+- **Costs per command:**
+  - 🤖 AI (ChatGPT): 5 ⚡
+  - 🖼️ HD image enhance: 10 ⚡
+  - 🌍 Translation: 2 ⚡
+  - 🛠️ Work: 10 ⚡
+  - 🎮 Games/quiz: FREE
+  - 📖 Basic commands: FREE
+
+### Commands
+| Command | Function |
+|---------|----------|
+| `.بنك` | Full stats: wallet, bank, energy, cooldowns |
+| `.ايداع <مبلغ>` | Deposit coins to bank |
+| `.سحب <مبلغ>` | Withdraw coins from bank |
+| `.تحويل @شخص <مبلغ>` | Transfer (5% fee) |
+| `.عمل` | Work for 100-350 coins (-10 energy, 30 min cooldown) |
+| `.يومي` | Daily reward: 300-700 coins + 50 energy + 200 XP |
+| `.طاقة` | Energy status + regen timer + fee list |
+| `.سوال` | Quiz: correct answer = 150-400 coins + 50 XP |
+| `.تحدي [1-4]` | Math challenge (4 difficulty levels): 80-700 coins |
+| `.رهان <مبلغ>` | Slot machine (3x win, 1.1x partial, lose) |
+
+### Roles by Level
+🌱 مبتدئ (0) → ⚔️ محارب (5) → 🏅 متقدم (10) → 🥇 محترف (20) → 🌟 بطل (30) → 👑 أسطورة (50)
+
 ## Menu Sections
 1. 📖 القرآن الكريم — أذكار، آيات، قرآن
-2. 🤖 الذكاء الاصطناعي — AI/ChatGPT
-3. 🎮 الألعاب — اكس او، فزورة، رياضيات، خمن العلم
+2. 🤖 الذكاء الاصطناعي — AI/ChatGPT (يتطلب طاقة)
+3. 🎮 الألعاب — سؤال بجائزة، تحدي رياضيات، رهان، اكس او
 4. 😄 ترفيه — ذكاء، جمال، حظ، اقتباسات، حكم
-5. 🛠️ الأدوات — ترجم، تذكير، منبه، QR، اختفاء
-6. 💰 الاقتصاد — بنك، عمل، مستوى، شراء
+5. 🛠️ الأدوات — ترجم، تذكير، منبه، QR، اختفاء (بعضها يتطلب طاقة)
+6. 💰 الاقتصاد — بنك، ايداع، سحب، تحويل، عمل، يومي، طاقة
 7. 📊 المعلومات — حالة البوت، توقيت، بلاغ، المالك
 8. 👑 أوامر المالك — صلاحيات كاملة
