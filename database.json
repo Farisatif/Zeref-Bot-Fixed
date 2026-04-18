@@ -1822,7 +1822,7 @@
       "emas": 0,
       "emerald": 0,
       "esteh": 0,
-      "exp": 5284,
+      "exp": 5605,
       "expg": 0,
       "exphero": 0,
       "expired": 0,
@@ -2143,8 +2143,8 @@
         "step": null,
         "soal": null
       },
-      "energy": 61,
-      "lastEnergyRegen": 1776484569387,
+      "energy": 64,
+      "lastEnergyRegen": 1776485109387,
       "lastDaily": 0,
       "lastWork": 1776481197104,
       "totalEarned": 119,
@@ -2172,17 +2172,17 @@
       "psepick": 0,
       "robo": 0,
       "roboxp": 0,
-      "lastCommandTime": 1776484743215,
+      "lastCommandTime": 1776485335135,
       "commandCount": 1,
       "tasks": [],
       "notes": [],
       "messages": {
-        "total": 220,
+        "total": 239,
         "groups": {
-          "120363427285079878@g.us": 151,
+          "120363427285079878@g.us": 170,
           "120363422912330057@g.us": 4
         },
-        "last": 1776484743214
+        "last": 1776485335135
       }
     },
     "204990769553546@lid": {
@@ -3053,12 +3053,12 @@
         "soal": null
       },
       "messages": {
-        "total": 100,
+        "total": 105,
         "groups": {
-          "120363427285079878@g.us": 71,
+          "120363427285079878@g.us": 76,
           "120363422912330057@g.us": 4
         },
-        "last": 1776484737918
+        "last": 1776485227489
       },
       "energy": 100,
       "lastEnergyRegen": 1776474223945,
@@ -3280,8 +3280,8 @@
         "to": "en"
       },
       "messageStats": {
-        "28648019066900@lid": 151,
-        "967782114485@s.whatsapp.net": 82,
+        "28648019066900@lid": 170,
+        "967782114485@s.whatsapp.net": 87,
         "204990769553546@lid": 89
       }
     },
@@ -3894,16 +3894,16 @@
       "lastSuccess": 1749115617736
     },
     "menu.js": {
-      "total": 33,
-      "success": 33,
-      "last": 1776484183037,
-      "lastSuccess": 1776484183037
+      "total": 34,
+      "success": 34,
+      "last": 1776485084572,
+      "lastSuccess": 1776485084572
     },
     "menu-response.js": {
-      "total": 38,
-      "success": 38,
-      "last": 1776484392431,
-      "lastSuccess": 1776484392431
+      "total": 41,
+      "success": 41,
+      "last": 1776485227386,
+      "lastSuccess": 1776485227386
     },
     "security.js": {
       "total": 3,
@@ -3936,10 +3936,10 @@
       "lastSuccess": 1776465766503
     },
     "profile.js": {
-      "total": 9,
-      "success": 6,
-      "last": 1776484744565,
-      "lastSuccess": 1776484744565
+      "total": 10,
+      "success": 7,
+      "last": 1776485064902,
+      "lastSuccess": 1776485064902
     },
     "جواب.js": {
       "total": 3,
@@ -4008,10 +4008,10 @@
       "lastSuccess": 1776483845389
     },
     "شغل.js": {
-      "total": 9,
-      "success": 0,
-      "last": 1776484170317,
-      "lastSuccess": 0
+      "total": 11,
+      "success": 1,
+      "last": 1776485154244,
+      "lastSuccess": 1776485154244
     },
     "شطرنج.js": {
       "total": 11,
@@ -4024,6 +4024,12 @@
       "success": 3,
       "last": 1776484298524,
       "lastSuccess": 1776484298524
+    },
+    "العاب3.js": {
+      "total": 9,
+      "success": 9,
+      "last": 1776485335444,
+      "lastSuccess": 1776485335444
     }
   },
   "msgs": {},

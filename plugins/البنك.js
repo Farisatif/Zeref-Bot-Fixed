@@ -1,5 +1,6 @@
 import { xpRange } from '../lib/levelling.js'
-import { syncEnergy, fmtEnergy, fmt, getRole, initEconomy, msToHuman, MAX_ENERGY } from '../lib/economy.js'
+import { syncEnergy, fmtEnergy, fmt, getRole, initEconomy, msToHuman, MAX_ENERGY, isVip } from '../lib/economy.js'
+import { initUser } from '../lib/userInit.js'
 
 // ─── DAILY WORK COOLDOWN DISPLAY ────────────────────────────────────────────
 function timeLeft(last, cooldown) {
@@ -8,8 +9,13 @@ function timeLeft(last, cooldown) {
 }
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
-  const user = global.db.data.users[m.sender]
-  if (!user) return m.reply('❌ سجّل أولاً باستخدام أي أمر.')
+  const user = global.db.data.users[m.sender] || (global.db.data.users[m.sender] = {})
+  initUser(user, m.pushName)
+
+  if (!user.registered) {
+    return m.reply(`╭────『 🔐 تسجيل مطلوب 』────\n│\n│ يجب التسجيل أولاً للوصول للبنك\n│\n│ 📌 اكتب: *${usedPrefix}تسجيل*\n│ وستحصل على مكافأة ترحيبية!\n│\n╰──────────────────`.trim())
+  }
+
   initEconomy(user)
 
   const directAction = /^(ايداع|ودع|deposit|سحب|withdraw|سح|تحويل|حول|transfer)$/i.test(command)
