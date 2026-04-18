@@ -1408,7 +1408,7 @@
       "emas": 0,
       "emerald": 0,
       "esteh": 0,
-      "exp": 2497,
+      "exp": 2535,
       "expg": 0,
       "exphero": 0,
       "expired": 0,
@@ -1729,7 +1729,7 @@
         "step": null,
         "soal": null
       },
-      "lastCommandTime": 1776470555975,
+      "lastCommandTime": 1776474055795,
       "commandCount": 1,
       "premiumDate": -1,
       "catexp": 0,
@@ -1759,7 +1759,14 @@
       "lastDaily": 0,
       "lastWork": 0,
       "totalEarned": 0,
-      "totalSpent": 0
+      "totalSpent": 0,
+      "messages": {
+        "total": 6,
+        "groups": {
+          "120363427285079878@g.us": 6
+        },
+        "last": 1776474067156
+      }
     },
     "28648019066900@s.whatsapp.net": {
       "afk": -1,
@@ -2681,7 +2688,7 @@
       "emas": 0,
       "emerald": 0,
       "esteh": 0,
-      "exp": 1732,
+      "exp": 2377,
       "expg": 0,
       "exphero": 0,
       "expired": 0,
@@ -2849,7 +2856,7 @@
       "leleb": 0,
       "lelebakar": 0,
       "leleg": 0,
-      "level": 2,
+      "level": 3,
       "limit": 20,
       "limitjoinfree": 1,
       "lion": 0,
@@ -3002,8 +3009,8 @@
         "step": null,
         "soal": null
       },
-      "energy": 74,
-      "lastEnergyRegen": 1776470529387,
+      "energy": 93,
+      "lastEnergyRegen": 1776473949387,
       "lastDaily": 0,
       "lastWork": 0,
       "totalEarned": 0,
@@ -3031,8 +3038,17 @@
       "psepick": 0,
       "robo": 0,
       "roboxp": 0,
-      "lastCommandTime": 1776470575182,
-      "commandCount": 1
+      "lastCommandTime": 1776474066776,
+      "commandCount": 1,
+      "tasks": [],
+      "notes": [],
+      "messages": {
+        "total": 4,
+        "groups": {
+          "120363427285079878@g.us": 4
+        },
+        "last": 1776474066776
+      }
     },
     "204990769553546@lid": {
       "afk": -1,
@@ -3126,7 +3142,7 @@
       "emas": 0,
       "emerald": 0,
       "esteh": 0,
-      "exp": 776,
+      "exp": 779,
       "expg": 0,
       "exphero": 0,
       "expired": 0,
@@ -3659,6 +3675,10 @@
       "globalTranslate": {
         "enabled": false,
         "to": "en"
+      },
+      "messageStats": {
+        "28648019066900@lid": 4,
+        "967782114485@s.whatsapp.net": 6
       }
     },
     "28648019066900@lid": {
@@ -3695,10 +3715,10 @@
       "lastSuccess": 1749115644807
     },
     "reminder.js": {
-      "total": 10,
-      "success": 10,
-      "last": 1776465096325,
-      "lastSuccess": 1776465096325
+      "total": 11,
+      "success": 11,
+      "last": 1776473654539,
+      "lastSuccess": 1776473654539
     },
     "قائمه.js": {
       "total": 8,
@@ -3779,10 +3799,10 @@
       "lastSuccess": 1749103896236
     },
     "انا.js": {
-      "total": 3,
-      "success": 3,
-      "last": 1749100323158,
-      "lastSuccess": 1749100323158
+      "total": 4,
+      "success": 4,
+      "last": 1776472943959,
+      "lastSuccess": 1776472943959
     },
     "رياضيات.js": {
       "total": 4,
@@ -3995,10 +4015,10 @@
       "lastSuccess": 1749102537012
     },
     "منبه.js": {
-      "total": 7,
-      "success": 7,
-      "last": 1776465056078,
-      "lastSuccess": 1776465056078
+      "total": 8,
+      "success": 8,
+      "last": 1776473609457,
+      "lastSuccess": 1776473609457
     },
     "منشني.js": {
       "total": 2,
@@ -4115,10 +4135,10 @@
       "lastSuccess": 1749109025053
     },
     "لفل.js": {
-      "total": 7,
-      "success": 3,
-      "last": 1776466777562,
-      "lastSuccess": 1776466777562
+      "total": 8,
+      "success": 4,
+      "last": 1776473371840,
+      "lastSuccess": 1776473371840
     },
     "شراء عملات.js": {
       "total": 2,
@@ -4181,10 +4201,10 @@
       "lastSuccess": 1749110316706
     },
     "owner-addprem.js": {
-      "total": 6,
-      "success": 2,
-      "last": 1749110421860,
-      "lastSuccess": 1749110355008
+      "total": 8,
+      "success": 3,
+      "last": 1776474067053,
+      "lastSuccess": 1776473066139
     },
     "n9.js": {
       "total": 5,
@@ -4241,16 +4261,16 @@
       "lastSuccess": 1749115617736
     },
     "menu.js": {
-      "total": 15,
-      "success": 15,
-      "last": 1776470072128,
-      "lastSuccess": 1776470072128
+      "total": 16,
+      "success": 16,
+      "last": 1776472652872,
+      "lastSuccess": 1776472652872
     },
     "menu-response.js": {
-      "total": 18,
-      "success": 18,
-      "last": 1776470575521,
-      "lastSuccess": 1776470575521
+      "total": 19,
+      "success": 19,
+      "last": 1776472670618,
+      "lastSuccess": 1776472670618
     },
     "security.js": {
       "total": 2,
@@ -4265,10 +4285,10 @@
       "lastSuccess": 0
     },
     "group-admin.js": {
-      "total": 13,
-      "success": 13,
-      "last": 1776470089766,
-      "lastSuccess": 1776470089766
+      "total": 17,
+      "success": 17,
+      "last": 1776474056053,
+      "lastSuccess": 1776474056053
     },
     "البنك.js": {
       "total": 4,
@@ -4283,10 +4303,10 @@
       "lastSuccess": 1776465766503
     },
     "profile.js": {
-      "total": 5,
-      "success": 2,
-      "last": 1776466783336,
-      "lastSuccess": 1776466783336
+      "total": 6,
+      "success": 3,
+      "last": 1776474040123,
+      "lastSuccess": 1776474040123
     },
     "جواب.js": {
       "total": 2,
@@ -4301,10 +4321,10 @@
       "lastSuccess": 1776466907184
     },
     "bot-status.js": {
-      "total": 9,
-      "success": 9,
-      "last": 1776466175528,
-      "lastSuccess": 1776466175528
+      "total": 10,
+      "success": 10,
+      "last": 1776472975296,
+      "lastSuccess": 1776472975296
     },
     "احذف.js": {
       "total": 4,
@@ -4319,10 +4339,16 @@
       "lastSuccess": 1776467475543
     },
     "اغنيه.js": {
-      "total": 8,
-      "success": 0,
-      "last": 1776470036537,
-      "lastSuccess": 0
+      "total": 12,
+      "success": 2,
+      "last": 1776473609099,
+      "lastSuccess": 1776473609099
+    },
+    "general-sections.js": {
+      "total": 15,
+      "success": 13,
+      "last": 1776473555275,
+      "lastSuccess": 1776473555275
     }
   },
   "msgs": {},

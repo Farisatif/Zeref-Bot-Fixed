@@ -106,6 +106,9 @@ ${p}لفل          ⟵ ارفع مستواك`.trim()
 
 ${p}الضعوم     ⟵ حالة البوت ووقت التشغيل
 ${p}بروفايل    ⟵ ملفك ومعلوماتك
+${p}رسائلي     ⟵ عدد رسائلك ونشاطك
+${p}رسائل @شخص ⟵ عدد رسائل عضو
+${p}ترتيب_الرسائل ⟵ أكثر الأعضاء تفاعلاً
 ${p}التوقيت    ⟵ التوقيت الحالي
 ${p}بلاغ       ⟵ إرسال بلاغ للمالك
 ${p}المالك     ⟵ معلومات مالك البوت`.trim()
@@ -264,7 +267,7 @@ function buildPageText(prefix) {
 
 async function sendPage(conn, m, prefix, stats) {
   const text = `${stats}\n\n${buildPageText(prefix)}\n\nأرسل رقم القسم فقط مثل: *1*\nلجميع الأقسام اختر رقم قسم *📜 كل الأقسام*.`
-  await conn.sendMessage(m.chat, { text }, { quoted: m })
+  await conn.sendMessage(m.chat, { image: global.imagen4, caption: text }, { quoted: m })
 }
 
 async function sendSection(conn, m, sectionKey, prefix, stats) {

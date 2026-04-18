@@ -1,5 +1,6 @@
 import fetch from 'node-fetch'
 import yts from 'yt-search'
+import ytdl from 'ytdl-core'
 
 let handler = async (m, { conn, text, command, usedPrefix, args }) => {
   if (!text) {
@@ -51,8 +52,14 @@ let handler = async (m, { conn, text, command, usedPrefix, args }) => {
       }
     }
 
-    const audioUrl = findMediaUrl(json, 'audio')
-    const videoUrl = findMediaUrl(json, 'video')
+    let audioUrl = findMediaUrl(json, 'audio')
+    let videoUrl = findMediaUrl(json, 'video')
+
+    if ((!audioUrl && wantsAudio) || (!videoUrl && wantsVideo)) {
+      const direct = await getYoutubeDirect(video.url).catch(() => null)
+      audioUrl = audioUrl || direct?.audio
+      videoUrl = videoUrl || direct?.video
+    }
 
     if (wantsAudio) {
       if (!audioUrl) throw new Error('No audio found')
@@ -86,7 +93,7 @@ let handler = async (m, { conn, text, command, usedPrefix, args }) => {
     }
   } catch (err) {
     console.error('[DOWNLOADER ERROR]', err)
-    throw '❌ Failed to download, try again later'
+    throw `❌ فشل التحميل من المصادر المتاحة حالياً.\nجرّب اسم مقطع آخر أو استخدم:\n${usedPrefix}بحث_يوتيوب ${query}`
   }
 }
 
@@ -127,4 +134,12 @@ function findMediaUrl(obj, type) {
   visit(obj)
   const preferred = urls.find(url => type === 'audio' ? /\.(mp3|m4a|aac|ogg)(\?|$)/i.test(url) : /\.(mp4|webm|mov)(\?|$)/i.test(url))
   return preferred || urls[0]
+}
+
+async function getYoutubeDirect(url) {
+  const info = await ytdl.getInfo(url)
+  const audio = ytdl.chooseFormat(info.formats, { quality: 'highestaudio', filter: 'audioonly' })?.url
+  const video = ytdl.chooseFormat(info.formats, { quality: '18', filter: 'audioandvideo' })?.url ||
+    ytdl.chooseFormat(info.formats, { quality: 'highest', filter: 'audioandvideo' })?.url
+  return { audio, video }
 }

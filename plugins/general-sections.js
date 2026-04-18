@@ -63,6 +63,21 @@ let handler = async (m, { conn, text, command, usedPrefix, participants }) => {
     return m.reply(`📊 *إحصائياتك*\nالرسائل/XP: ${user.exp || 0}\nالمستوى: ${user.level || 0}\nالمهام: ${user.tasks.length}\nالمكتملة: ${user.tasks.filter(t => t.done).length}\nالملاحظات: ${user.notes.length}\nالمال: ${user.money || 0}\nالبنك: ${user.bank || 0}`)
   }
 
+  if (/^(رسائلي|رسائل)$/i.test(command)) {
+    const who = m.mentionedJid?.[0] || m.quoted?.sender || m.sender
+    const target = ensureUser(who)
+    const groupMessages = m.isGroup ? (target.messages?.groups?.[m.chat] || 0) : 0
+    const name = await conn.getName(who).catch(() => who.split('@')[0])
+    return conn.reply(m.chat, `💬 *متتبع الرسائل*\nالعضو: @${who.split('@')[0]}\nالاسم: ${name || '-'}\nإجمالي الرسائل: ${target.messages?.total || 0}\nرسائل هذا القروب: ${m.isGroup ? groupMessages : 'خاص'}\nآخر نشاط: ${target.messages?.last ? new Date(target.messages.last).toLocaleString('ar') : 'غير محفوظ'}`, m, { mentions: [who] })
+  }
+
+  if (/^(ترتيب_الرسائل|ترتيب-الرسائل)$/i.test(command)) {
+    const stats = m.isGroup ? (global.db.data.chats[m.chat]?.messageStats || {}) : Object.fromEntries(Object.entries(global.db.data.users || {}).map(([jid, data]) => [jid, data.messages?.total || 0]))
+    const top = Object.entries(stats).sort((a, b) => (b[1] || 0) - (a[1] || 0)).slice(0, 10)
+    if (!top.length) return m.reply('لا توجد رسائل محفوظة بعد.')
+    return conn.reply(m.chat, top.map(([jid, count], i) => `${i + 1}. @${jid.split('@')[0]} — ${count} رسالة`).join('\n'), m, { mentions: top.map(([jid]) => jid) })
+  }
+
   if (/^(ترتيب)$/i.test(command)) {
     const top = Object.entries(global.db.data.users || {}).sort((a, b) => (b[1].exp || 0) - (a[1].exp || 0)).slice(0, 10)
     return m.reply(top.map(([jid, data], i) => `${i + 1}. @${jid.split('@')[0]} — ${data.exp || 0} XP`).join('\n'), null, { mentions: top.map(([jid]) => jid) })
@@ -125,8 +140,8 @@ let handler = async (m, { conn, text, command, usedPrefix, participants }) => {
   if (/^(استراحة)$/i.test(command)) return m.reply(`🌱 استراحة ذكية: ابتعد عن الشاشة 3 دقائق، حرّك رقبتك وكتفيك، ثم ارجع بتركيز أعلى.`)
 }
 
-handler.help = ['ميديا', 'بحث_يوتيوب', 'مهمة', 'مهامي', 'تم', 'حذف_مهمة', 'ملاحظة', 'ملاحظاتي', 'احصائياتي', 'ترتيب', 'نشاط_القروب', 'حالة_الاقسام', 'فحص_رابط', 'خصوصيتي', 'قواعد_امان', 'كود', 'json', 'regex', 'مطور', 'ماء', 'تنفس', 'استراحة']
+handler.help = ['ميديا', 'بحث_يوتيوب', 'مهمة', 'مهامي', 'تم', 'حذف_مهمة', 'ملاحظة', 'ملاحظاتي', 'احصائياتي', 'رسائلي', 'رسائل', 'ترتيب_الرسائل', 'ترتيب', 'نشاط_القروب', 'حالة_الاقسام', 'فحص_رابط', 'خصوصيتي', 'قواعد_امان', 'كود', 'json', 'regex', 'مطور', 'ماء', 'تنفس', 'استراحة']
 handler.tags = ['tools']
-handler.command = /^(ميديا|بحث_يوتيوب|يوتيوب|مهمة|مهامي|تم|حذف_مهمة|حذف-مهمة|ملاحظة|ملاحظاتي|احصائياتي|ترتيب|نشاط_القروب|نشاط-القروب|حالة_الاقسام|حالة-الاقسام|فحص_رابط|فحص-رابط|خصوصيتي|قواعد_امان|قواعد-امان|كود|json|regex|مطور|ماء|تنفس|استراحة)$/i
+handler.command = /^(ميديا|بحث_يوتيوب|يوتيوب|مهمة|مهامي|تم|حذف_مهمة|حذف-مهمة|ملاحظة|ملاحظاتي|احصائياتي|رسائلي|رسائل|ترتيب_الرسائل|ترتيب-الرسائل|ترتيب|نشاط_القروب|نشاط-القروب|حالة_الاقسام|حالة-الاقسام|فحص_رابط|فحص-رابط|خصوصيتي|قواعد_امان|قواعد-امان|كود|json|regex|مطور|ماء|تنفس|استراحة)$/i
 
 export default handler

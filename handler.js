@@ -24,15 +24,34 @@ const jidOf = x => {
     }
     return x?.phoneNumber || x?.id || x?.jid || x?.lid || x?.participant || ''
 }
-const jidNumber = jid => String(jidOf(jid) || '').split('@')[0].replace(/[^0-9]/g, '')
+const jidCandidates = x => {
+    if (!x) return []
+    if (typeof x === 'string') {
+        if (x.trim().startsWith('{')) {
+            try {
+                const parsed = JSON.parse(x)
+                return jidCandidates(parsed)
+            } catch (_) {}
+        }
+        return [x]
+    }
+    return [x.id, x.jid, x.lid, x.participant, x.phoneNumber, x.phoneNumber?.replace?.(/:\d+@/, '@')]
+        .filter(Boolean)
+}
+const jidNumber = jid => String(jid || '').split('@')[0].split(':')[0].replace(/[^0-9]/g, '')
 const sameJidLoose = (a, b, conn) => {
-    const rawA = jidOf(a)
-    const rawB = jidOf(b)
-    const decA = conn?.decodeJid ? conn.decodeJid(rawA || '') : rawA
-    const decB = conn?.decodeJid ? conn.decodeJid(rawB || '') : rawB
-    const numA = jidNumber(decA || rawA)
-    const numB = jidNumber(decB || rawB)
-    return Boolean(rawA && rawB && (rawA === rawB || decA === decB || (numA && numB && numA === numB)))
+    const listA = jidCandidates(a)
+    const listB = jidCandidates(b)
+    for (const rawA of listA) {
+        for (const rawB of listB) {
+            const decA = conn?.decodeJid ? conn.decodeJid(rawA || '') : rawA
+            const decB = conn?.decodeJid ? conn.decodeJid(rawB || '') : rawB
+            const numA = jidNumber(decA || rawA)
+            const numB = jidNumber(decB || rawB)
+            if (rawA && rawB && (rawA === rawB || decA === decB || (numA && numB && numA === numB))) return true
+        }
+    }
+    return false
 }
 const botJidsOf = conn => [
     conn?.user?.jid,
@@ -65,7 +84,6 @@ export async function handler(chatUpdate) {
     if (!m || !m.message) return
 
     if (m.key.remoteJid === 'status@broadcast') return
-    if (m.key?.fromMe) return
 
 if (global.db.data == null) await global.loadDatabase()
 let chat = global.db.data.chats[m.chat] || {};
@@ -74,7 +92,10 @@ if (global.chatgpt.data === null) await global.loadChatgptDB()
 try {
     m = smsg(this, m) || m
     if (!m) return
-    if (isBotOwnMessage(m, this)) return
+    if (typeof m.text !== 'string')
+        m.text = ''
+    if ((m.fromMe || isBotOwnMessage(m, this)) && !global.prefix.test(m.text))
+        return
     m.exp = 0
     m.money = false
     m.limit = false
@@ -1052,16 +1073,22 @@ try {
             return
         if (opts['swonly'] && m.chat !== 'status@broadcast')
             return
-        if (typeof m.text !== 'string')
-            m.text = ''
-
+        if (m.isBaileys)
+            return
+        const groupMetadata = (m.isGroup ? ((conn.chats[m.chat] || {}).metadata || await this.groupMetadata(m.chat).catch(_ => null)) : {}) || {}
+        const participants = (m.isGroup ? groupMetadata.participants : []) || []
+        const sameJid = (a, b) => sameJidLoose(a, b, conn)
+        const user = (m.isGroup ? participants.find(u => sameJid(u, m.sender)) : {}) || {}
+        const botJids = botJidsOf(this)
+        const bot = (m.isGroup ? participants.find(u => botJids.some(j => sameJid(u, j))) : {}) || {}
         const ownerJids = [
-            ...botJidsOf(conn),
-            ...(global.owner || []).map(([number]) => `${String(number).replace(/[^0-9]/g, '')}@s.whatsapp.net`)
+            ...(global.owner || []).map(([number]) => `${String(number).replace(/[^0-9]/g, '')}@s.whatsapp.net`),
+            ...(global.suittag || []).map(number => `${String(number).replace(/[^0-9]/g, '')}@s.whatsapp.net`),
+            ...(global.prems || []).map(number => `${String(number).replace(/[^0-9]/g, '')}@s.whatsapp.net`)
         ].filter(Boolean)
-        const isROwner = ownerJids.some(jid => sameJidLoose(m.sender, jid, conn))
+        const isROwner = ownerJids.some(jid => sameJid(m.sender, jid) || sameJid(user, jid))
         const isOwner = isROwner || m.fromMe
-        const isMods = isOwner || (global.mods || []).map(v => `${String(v).replace(/[^0-9]/g, '')}@s.whatsapp.net`).some(jid => sameJidLoose(m.sender, jid, conn))
+        const isMods = isOwner || (global.mods || []).map(v => `${String(v).replace(/[^0-9]/g, '')}@s.whatsapp.net`).some(jid => sameJid(m.sender, jid) || sameJid(user, jid))
         const isPrems = isROwner || isOwner || isMods || global.db.data.users[m.sender].premiumTime > 0 //|| global.db.data.users[m.sender].premium = 'true'
         if (global.db.data.chats[m.chat]?.botOff && m.text && global.prefix.test(m.text) && !(isROwner || isOwner)) return
 
@@ -1075,19 +1102,20 @@ try {
             }, time)
         }
 
-        if (m.isBaileys)
-            return
         m.exp += Math.ceil(Math.random() * 10)
+        const trackedUser = global.db.data.users[m.sender] || (global.db.data.users[m.sender] = {})
+        trackedUser.messages = trackedUser.messages && typeof trackedUser.messages === 'object' ? trackedUser.messages : { total: 0, groups: {} }
+        trackedUser.messages.total = (trackedUser.messages.total || 0) + 1
+        trackedUser.messages.last = Date.now()
+        if (m.isGroup) {
+            trackedUser.messages.groups[m.chat] = (trackedUser.messages.groups[m.chat] || 0) + 1
+            const trackedChat = global.db.data.chats[m.chat] || (global.db.data.chats[m.chat] = {})
+            trackedChat.messageStats = trackedChat.messageStats && typeof trackedChat.messageStats === 'object' ? trackedChat.messageStats : {}
+            trackedChat.messageStats[m.sender] = (trackedChat.messageStats[m.sender] || 0) + 1
+        }
 
         let usedPrefix
         let _user = global.db.data && global.db.data.users && global.db.data.users[m.sender]
-
-        const groupMetadata = (m.isGroup ? ((conn.chats[m.chat] || {}).metadata || await this.groupMetadata(m.chat).catch(_ => null)) : {}) || {}
-        const participants = (m.isGroup ? groupMetadata.participants : []) || []
-        const botJids = botJidsOf(this)
-        const sameJid = (a, b) => sameJidLoose(a, b, conn)
-        const user = (m.isGroup ? participants.find(u => sameJid(u, m.sender)) : {}) || {} // User Data
-        const bot = (m.isGroup ? participants.find(u => botJids.some(j => sameJid(u, j))) : {}) || {} // Your Data
         const isRAdmin = user?.admin == 'superadmin' || false
         const isAdmin = isRAdmin || user?.admin == 'admin' || false // Is User Admin?
         const isBotAdmin = bot?.admin == 'admin' || bot?.admin == 'superadmin' || false // Are you Admin?
@@ -1323,13 +1351,15 @@ if (botSpam.antispam && m.text && user && user.lastCommandTime && (Date.now() - 
                         let text = format(e)
                         for (let key of Object.values(global.APIKeys))
                             text = text.replace(new RegExp(key, 'g'), '#HIDDEN#')
-                        if (e.name)
+                        const connectionClosed = /connection closed|timed out|stream errored/i.test(text) || e?.output?.statusCode === 428
+                        if (e.name && !connectionClosed)
                             for (let [jid] of global.owner.filter(([number, _, isDeveloper]) => isDeveloper && number)) {
-                                let data = (await conn.onWhatsApp(jid))[0] || {}
-                                if (data.exists)
-                                    await m.reply(`*[ ⚠️ 𝚁𝙴𝙿𝙾𝚁𝚃𝙴 𝙳𝙴 𝙲𝙾𝙼𝙰𝙽𝙳𝙾 𝙲𝙾𝙽 𝙵𝙰𝙻𝙻𝙾𝚂 ⚠️ ]*\n\n*—◉ 𝙿𝙻𝚄𝙶𝙸𝙽:* ${m.plugin}\n*—◉ 𝚄𝚂𝚄𝙰𝚁𝙸𝙾:* ${m.sender}\n*—◉ 𝙲𝙾𝙼𝙰𝙽𝙳𝙾:* ${usedPrefix}${command} ${args.join(' ')}\n\n\`\`\`${text}\`\`\`\n\n*[❗] 𝚁𝙴𝙿𝙾𝚁𝚃𝙴𝙻𝙾 𝙰𝙻 𝙲𝚁𝙴𝙰𝙳𝙾𝚁 𝙳𝙴𝙻 𝙱𝙾𝚃 𝙿𝙰𝚁𝙰 𝙳𝙰𝚁𝙻𝙴 𝚄𝙽𝙰 𝚂𝙾𝙻𝚄𝙲𝙸𝙾𝙽, 𝙿𝚄𝙴𝙳𝙴 𝚄𝚂𝙰𝚁 𝙴𝙻 𝙲𝙾𝙼𝙰𝙽𝙳𝙾 #reporte*`.trim(), data.jid)
+                                let data = (await conn.onWhatsApp(jid).catch(() => []))[0] || {}
+                                if (data.exists) {
+                                    await m.reply(`*[ ⚠️ 𝚁𝙴𝙿𝙾𝚁𝚃𝙴 𝙳𝙴 𝙲𝙾𝙼𝙰𝙽𝙳𝙾 𝙲𝙾𝙽 𝙵𝙰𝙻𝙻𝙾𝚂 ⚠️ ]*\n\n*—◉ 𝙿𝙻𝚄𝙶𝙸𝙽:* ${m.plugin}\n*—◉ 𝚄𝚂𝚄𝙰𝚁𝙸𝙾:* ${m.sender}\n*—◉ 𝙲𝙾𝙼𝙰𝙽𝙳𝙾:* ${usedPrefix}${command} ${args.join(' ')}\n\n\`\`\`${text}\`\`\`\n\n*[❗] 𝚁𝙴𝙿𝙾𝚁𝚃𝙴𝙻𝙾 𝙰𝙻 𝙲𝚁𝙴𝙰𝙳𝙾𝚁 𝙳𝙴𝙻 𝙱𝙾𝚃 𝙿𝙰𝚁𝙰 𝙳𝙰𝚁𝙻𝙴 𝚄𝙽𝙰 𝚂𝙾𝙻𝚄𝙲𝙸𝙾𝙽, 𝙿𝚄𝙴𝙳𝙴 𝚄𝚂𝙰𝚁 𝙴𝙻 𝙲𝙾𝙼𝙰𝙽𝙳𝙾 #reporte*`.trim(), data.jid).catch(() => {})
+                                }
                             }
-                        await m.reply(text)
+                        if (!connectionClosed) await m.reply(text).catch(() => {})
                     }
                 } finally {
                     // m.reply(util.format(_user))

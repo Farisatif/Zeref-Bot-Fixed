@@ -43,6 +43,8 @@ let handler = async (m, { conn }) => {
 │
 │ المكتسبات: *${fmt(user.totalEarned)}*
 │ المصروفات: *${fmt(user.totalSpent)}*
+│ الرسائل الكلية: *${user.messages?.total || 0}*
+│ رسائل هذا القروب: *${m.isGroup ? (user.messages?.groups?.[m.chat] || 0) : '-'}*
 │ آخر ظهور محفوظ: *${lastSeen}*
 ╰──────────────────`.trim()
   await conn.sendMessage(m.chat, { image: { url: pp }, caption: text, mentions: [who] }, { quoted: m })

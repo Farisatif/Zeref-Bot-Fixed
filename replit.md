@@ -69,8 +69,10 @@ The bot is being trimmed toward a useful student/community assistant. Unrelated 
 - Bot admin detection supports newer WhatsApp JID/LID participant formats.
 - Promote/demote group update parsing avoids `@undefined` and crash cases.
 - Bot ignores its own sent messages before plugin processing to prevent reply loops.
-- Owner/mod/bot matching is more tolerant of decoded JIDs and number formats.
+- Owner/mod/admin/bot matching is more tolerant of decoded JIDs, LID participant IDs, phoneNumber fields, and number formats.
 - Profile command safely handles missing names and now sends profile picture plus full stored account/economy information.
+- Group message tracking stores total messages per user and per-group counts; `.رسائلي`, `.رسائل @عضو`, and `.ترتيب_الرسائل` display the tracker.
+- Main command list sends with the bot menu image.
 - Database writes are triggered after message handling and before reconnect/exit to reduce data loss on restart.
 - Song command supports explicit audio/video choice: `.اغنيه صوت ...`, `.اغنيه فيديو ...`, `.فيديو ...`.
 - Legacy `.ترجم` plugins are disabled; global translator remains active.
