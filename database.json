@@ -1774,7 +1774,7 @@
       "babihutan": 0,
       "babipanggang": 0,
       "bandage": 0,
-      "bank": 0,
+      "bank": 134,
       "banned": false,
       "BannedReason": "",
       "Banneduser": false,
@@ -1822,7 +1822,7 @@
       "emas": 0,
       "emerald": 0,
       "esteh": 0,
-      "exp": 4098,
+      "exp": 4578,
       "expg": 0,
       "exphero": 0,
       "expired": 0,
@@ -1983,14 +1983,14 @@
       "lastwarpet": 0,
       "lastweaponclaim": 0,
       "lastweekly": 0,
-      "lastwork": 0,
+      "lastwork": 1776481197104,
       "lbars": "[▒▒▒▒▒▒▒▒▒]",
       "legendary": 0,
       "lele": 0,
       "leleb": 0,
       "lelebakar": 0,
       "leleg": 0,
-      "level": 3,
+      "level": 4,
       "limit": 20,
       "limitjoinfree": 1,
       "lion": 0,
@@ -2011,7 +2011,7 @@
       "mana": 20,
       "mangga": 0,
       "misi": "",
-      "money": 15,
+      "money": 0,
       "monyet": 0,
       "mythic": 0,
       "naga": 0,
@@ -2143,11 +2143,11 @@
         "step": null,
         "soal": null
       },
-      "energy": 100,
-      "lastEnergyRegen": 1776479349387,
+      "energy": 91,
+      "lastEnergyRegen": 1776481329387,
       "lastDaily": 0,
-      "lastWork": 0,
-      "totalEarned": 0,
+      "lastWork": 1776481197104,
+      "totalEarned": 119,
       "totalSpent": 0,
       "premiumDate": -1,
       "catexp": 0,
@@ -2172,17 +2172,17 @@
       "psepick": 0,
       "robo": 0,
       "roboxp": 0,
-      "lastCommandTime": 1776480484745,
+      "lastCommandTime": 1776482229045,
       "commandCount": 1,
       "tasks": [],
       "notes": [],
       "messages": {
-        "total": 143,
+        "total": 179,
         "groups": {
-          "120363427285079878@g.us": 112,
+          "120363427285079878@g.us": 128,
           "120363422912330057@g.us": 1
         },
-        "last": 1776480484745
+        "last": 1776482229045
       }
     },
     "204990769553546@lid": {
@@ -2277,7 +2277,7 @@
       "emas": 0,
       "emerald": 0,
       "esteh": 0,
-      "exp": 1989,
+      "exp": 1997,
       "expg": 0,
       "exphero": 0,
       "expired": 0,
@@ -2630,11 +2630,11 @@
       "lastCommandTime": 1776477132053,
       "commandCount": 1,
       "messages": {
-        "total": 88,
+        "total": 89,
         "groups": {
-          "120363427285079878@g.us": 88
+          "120363427285079878@g.us": 89
         },
-        "last": 1776480328002
+        "last": 1776481275345
       },
       "tasks": [],
       "notes": []
@@ -2731,7 +2731,7 @@
       "emas": 0,
       "emerald": 0,
       "esteh": 0,
-      "exp": 1,
+      "exp": null,
       "expg": 0,
       "exphero": 0,
       "expired": 0,
@@ -2900,7 +2900,7 @@
       "lelebakar": 0,
       "leleg": 0,
       "level": 0,
-      "limit": 20,
+      "limit": null,
       "limitjoinfree": 1,
       "lion": 0,
       "lionexp": 0,
@@ -3053,12 +3053,12 @@
         "soal": null
       },
       "messages": {
-        "total": 69,
+        "total": 73,
         "groups": {
-          "120363427285079878@g.us": 56,
+          "120363427285079878@g.us": 58,
           "120363422912330057@g.us": 1
         },
-        "last": 1776480484856
+        "last": 1776481737657
       },
       "energy": 100,
       "lastEnergyRegen": 1776474223945,
@@ -3280,9 +3280,9 @@
         "to": "en"
       },
       "messageStats": {
-        "28648019066900@lid": 112,
-        "967782114485@s.whatsapp.net": 67,
-        "204990769553546@lid": 88
+        "28648019066900@lid": 128,
+        "967782114485@s.whatsapp.net": 69,
+        "204990769553546@lid": 89
       }
     },
     "28648019066900@lid": {
@@ -3582,10 +3582,10 @@
       "lastSuccess": 0
     },
     "عمل.js": {
-      "total": 2,
-      "success": 2,
-      "last": 1749101574724,
-      "lastSuccess": 1749101574724
+      "total": 3,
+      "success": 3,
+      "last": 1776481197117,
+      "lastSuccess": 1776481197117
     },
     "فزوره.js": {
       "total": 3,
@@ -3768,10 +3768,10 @@
       "lastSuccess": 1749109025053
     },
     "لفل.js": {
-      "total": 9,
-      "success": 4,
-      "last": 1776474264397,
-      "lastSuccess": 1776473371840
+      "total": 10,
+      "success": 5,
+      "last": 1776481181079,
+      "lastSuccess": 1776481181079
     },
     "شراء عملات.js": {
       "total": 2,
@@ -3834,9 +3834,9 @@
       "lastSuccess": 1749110316706
     },
     "owner-addprem.js": {
-      "total": 15,
+      "total": 16,
       "success": 8,
-      "last": 1776480484751,
+      "last": 1776480670421,
       "lastSuccess": 1776480484751
     },
     "n9.js": {
@@ -3894,10 +3894,10 @@
       "lastSuccess": 1749115617736
     },
     "menu.js": {
-      "total": 29,
-      "success": 29,
-      "last": 1776479442077,
-      "lastSuccess": 1776479442077
+      "total": 30,
+      "success": 30,
+      "last": 1776480688048,
+      "lastSuccess": 1776480688048
     },
     "menu-response.js": {
       "total": 34,
@@ -3924,10 +3924,10 @@
       "lastSuccess": 1776477132792
     },
     "البنك.js": {
-      "total": 4,
-      "success": 4,
-      "last": 1776466090047,
-      "lastSuccess": 1776466090047
+      "total": 11,
+      "success": 11,
+      "last": 1776481332536,
+      "lastSuccess": 1776481332536
     },
     "global-translator.js": {
       "total": 5,
@@ -4002,10 +4002,16 @@
       "lastSuccess": 1776477737630
     },
     "group-request.js": {
-      "total": 12,
-      "success": 5,
-      "last": 1776479427954,
-      "lastSuccess": 1776479154186
+      "total": 15,
+      "success": 6,
+      "last": 1776482229055,
+      "lastSuccess": 1776481094568
+    },
+    "شغل.js": {
+      "total": 3,
+      "success": 0,
+      "last": 1776481738107,
+      "lastSuccess": 0
     }
   },
   "msgs": {},
