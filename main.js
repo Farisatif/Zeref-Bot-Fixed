@@ -69,6 +69,7 @@ global.prefix = new RegExp(
 );
 
 // ====== DATABASE ======
+global.startTime = Date.now() / 1000;
 global.db = new Low(new JSONFile(`database.json`));
 global.DATABASE = global.db;
 

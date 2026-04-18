@@ -85,6 +85,7 @@ export async function handler(chatUpdate) {
 
     let m = chatUpdate.messages[chatUpdate.messages.length - 1]
     if (!m || !m.message) return
+    if (m.messageTimestamp < global.startTime) return
 
     if (m.key.remoteJid === 'status@broadcast') return
 
