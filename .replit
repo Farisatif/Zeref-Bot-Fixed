@@ -39,5 +39,6 @@ externalPort = 80
 # PHONE_NUMBER = "SET_YOUR_PHONE_NUMBER_HERE"
 
 [deployment]
+build = ["npm", "install"]
 run = ["node", "index.js"]
 deploymentTarget = "cloudrun"
