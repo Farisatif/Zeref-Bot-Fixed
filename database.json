@@ -1822,7 +1822,7 @@
       "emas": 0,
       "emerald": 0,
       "esteh": 0,
-      "exp": 64,
+      "exp": 939,
       "expg": 0,
       "exphero": 0,
       "expired": 0,
@@ -1990,7 +1990,7 @@
       "leleb": 0,
       "lelebakar": 0,
       "leleg": 0,
-      "level": 0,
+      "level": 2,
       "limit": 20,
       "limitjoinfree": 1,
       "lion": 0,
@@ -2011,7 +2011,7 @@
       "mana": 20,
       "mangga": 0,
       "misi": "",
-      "money": 1319,
+      "money": 1919,
       "monyet": 0,
       "mythic": 0,
       "naga": 0,
@@ -2144,7 +2144,7 @@
         "soal": null
       },
       "energy": 100,
-      "lastEnergyRegen": 1776495400168,
+      "lastEnergyRegen": 1776505623013,
       "lastDaily": 0,
       "lastWork": 1776481197104,
       "totalEarned": 438,
@@ -2172,7 +2172,7 @@
       "psepick": 0,
       "robo": 0,
       "roboxp": 0,
-      "lastCommandTime": 1776495591117,
+      "lastCommandTime": 1776505623013,
       "commandCount": 1,
       "tasks": [
         {
@@ -2183,15 +2183,27 @@
       ],
       "notes": [],
       "messages": {
-        "total": 409,
+        "total": 464,
         "groups": {
-          "120363427285079878@g.us": 289,
+          "120363427285079878@g.us": 325,
           "120363422912330057@g.us": 4
         },
-        "last": 1776495631377
+        "last": 1776505623003
       },
       "bannedReason": "",
       "transactions": [
+        {
+          "type": "earn",
+          "amount": 400,
+          "reason": "🆙 مكافأة المستوى 2",
+          "time": 1776502990359
+        },
+        {
+          "type": "earn",
+          "amount": 200,
+          "reason": "🆙 مكافأة المستوى 1",
+          "time": 1776495714897
+        },
         {
           "type": "earn",
           "amount": 0,
@@ -2287,7 +2299,7 @@
       "crystal": 0,
       "cumi": 0,
       "cupon": 0,
-      "diamond": 3,
+      "diamond": 4,
       "dog": 0,
       "dogexp": 0,
       "doglastfeed": 0,
@@ -2298,7 +2310,7 @@
       "emas": 0,
       "emerald": 0,
       "esteh": 0,
-      "exp": 2423,
+      "exp": 90,
       "expg": 0,
       "exphero": 0,
       "expired": 0,
@@ -2531,16 +2543,16 @@
       "ramuanphonixlast": 0,
       "ramuanrubahlast": 0,
       "ramuanserigalalast": 0,
-      "registered": true,
+      "registered": false,
       "reglast": 0,
-      "regTime": 1776495497533,
+      "regTime": 0,
       "rendang": 0,
       "rhinoceros": 0,
       "rhinocerosexp": 0,
       "rhinoceroslastfeed": 0,
       "rock": 0,
       "roket": 0,
-      "role": "Novato",
+      "role": "🌱 مبتدئ",
       "roti": 0,
       "rtrofi": "bronce",
       "rubah": 0,
@@ -2619,7 +2631,7 @@
         "step": null,
         "soal": null
       },
-      "energy": 86,
+      "energy": 100,
       "lastEnergyRegen": 1776495572963,
       "lastDaily": 0,
       "lastWork": 0,
@@ -2648,20 +2660,27 @@
       "psepick": 0,
       "robo": 0,
       "roboxp": 0,
-      "lastCommandTime": 1776495609677,
+      "lastCommandTime": 1776495696753,
       "commandCount": 1,
       "messages": {
-        "total": 129,
+        "total": 138,
         "groups": {
-          "120363427285079878@g.us": 128,
+          "120363427285079878@g.us": 137,
           "120363422912330057@g.us": 1
         },
-        "last": 1776495616753
+        "last": 1776495781574
       },
       "tasks": [],
       "notes": [],
       "bannedReason": "",
-      "transactions": []
+      "transactions": [
+        {
+          "type": "earn",
+          "amount": 0,
+          "reason": "🆙 مكافأة المستوى 0",
+          "time": 1776495660987
+        }
+      ]
     },
     "967782114485@s.whatsapp.net": {
       "afk": -1,
@@ -2744,7 +2763,7 @@
       "crystal": 0,
       "cumi": 0,
       "cupon": 0,
-      "diamond": 28,
+      "diamond": 48,
       "dog": 0,
       "dogexp": 0,
       "doglastfeed": 0,
@@ -3077,12 +3096,12 @@
         "soal": null
       },
       "messages": {
-        "total": 132,
+        "total": 155,
         "groups": {
-          "120363427285079878@g.us": 92,
+          "120363427285079878@g.us": 110,
           "120363422912330057@g.us": 4
         },
-        "last": 1776495014556
+        "last": 1776504713986
       },
       "energy": 100,
       "lastEnergyRegen": 1776474223945,
@@ -3116,6 +3135,126 @@
       "lastCommandTime": 1776494137851,
       "commandCount": 1,
       "transactions": [
+        {
+          "type": "earn",
+          "amount": 0,
+          "reason": "🆙 مكافأة المستوى 0",
+          "time": 1776504713993
+        },
+        {
+          "type": "earn",
+          "amount": 0,
+          "reason": "🆙 مكافأة المستوى 0",
+          "time": 1776504563226
+        },
+        {
+          "type": "earn",
+          "amount": 0,
+          "reason": "🆙 مكافأة المستوى 0",
+          "time": 1776504327439
+        },
+        {
+          "type": "earn",
+          "amount": 0,
+          "reason": "🆙 مكافأة المستوى 0",
+          "time": 1776504233539
+        },
+        {
+          "type": "earn",
+          "amount": 0,
+          "reason": "🆙 مكافأة المستوى 0",
+          "time": 1776504150582
+        },
+        {
+          "type": "earn",
+          "amount": 0,
+          "reason": "🆙 مكافأة المستوى 0",
+          "time": 1776504039460
+        },
+        {
+          "type": "earn",
+          "amount": 0,
+          "reason": "🆙 مكافأة المستوى 0",
+          "time": 1776503493583
+        },
+        {
+          "type": "earn",
+          "amount": 0,
+          "reason": "🆙 مكافأة المستوى 0",
+          "time": 1776503395612
+        },
+        {
+          "type": "earn",
+          "amount": 0,
+          "reason": "🆙 مكافأة المستوى 0",
+          "time": 1776503188942
+        },
+        {
+          "type": "earn",
+          "amount": 0,
+          "reason": "🆙 مكافأة المستوى 0",
+          "time": 1776503119546
+        },
+        {
+          "type": "earn",
+          "amount": 0,
+          "reason": "🆙 مكافأة المستوى 0",
+          "time": 1776502990476
+        },
+        {
+          "type": "earn",
+          "amount": 0,
+          "reason": "🆙 مكافأة المستوى 0",
+          "time": 1776502982071
+        },
+        {
+          "type": "earn",
+          "amount": 0,
+          "reason": "🆙 مكافأة المستوى 0",
+          "time": 1776502874187
+        },
+        {
+          "type": "earn",
+          "amount": 0,
+          "reason": "🆙 مكافأة المستوى 0",
+          "time": 1776502799629
+        },
+        {
+          "type": "earn",
+          "amount": 0,
+          "reason": "🆙 مكافأة المستوى 0",
+          "time": 1776502780690
+        },
+        {
+          "type": "earn",
+          "amount": 0,
+          "reason": "🆙 مكافأة المستوى 0",
+          "time": 1776502699709
+        },
+        {
+          "type": "earn",
+          "amount": 0,
+          "reason": "🆙 مكافأة المستوى 0",
+          "time": 1776502605825
+        },
+        {
+          "type": "earn",
+          "amount": 0,
+          "reason": "🆙 مكافأة المستوى 0",
+          "time": 1776502379142
+        },
+        {
+          "type": "earn",
+          "amount": 0,
+          "reason": "🆙 مكافأة المستوى 0",
+          "time": 1776495776158
+        },
+        {
+          "type": "earn",
+          "amount": 0,
+          "reason": "🆙 مكافأة المستوى 0",
+          "time": 1776495715382
+        },
         {
           "type": "earn",
           "amount": 0,
@@ -3175,96 +3314,6 @@
           "amount": 0,
           "reason": "🆙 مكافأة المستوى 0",
           "time": 1776490396018
-        },
-        {
-          "type": "earn",
-          "amount": 0,
-          "reason": "🆙 مكافأة المستوى 0",
-          "time": 1776490362659
-        },
-        {
-          "type": "earn",
-          "amount": 0,
-          "reason": "🆙 مكافأة المستوى 0",
-          "time": 1776490214305
-        },
-        {
-          "type": "earn",
-          "amount": 0,
-          "reason": "🆙 مكافأة المستوى 0",
-          "time": 1776490194687
-        },
-        {
-          "type": "earn",
-          "amount": 0,
-          "reason": "🆙 مكافأة المستوى 0",
-          "time": 1776490179807
-        },
-        {
-          "type": "earn",
-          "amount": 0,
-          "reason": "🆙 مكافأة المستوى 0",
-          "time": 1776489940928
-        },
-        {
-          "type": "earn",
-          "amount": 0,
-          "reason": "🆙 مكافأة المستوى 0",
-          "time": 1776488737528
-        },
-        {
-          "type": "earn",
-          "amount": 0,
-          "reason": "🆙 مكافأة المستوى 0",
-          "time": 1776487836907
-        },
-        {
-          "type": "earn",
-          "amount": 0,
-          "reason": "🆙 مكافأة المستوى 0",
-          "time": 1776487769029
-        },
-        {
-          "type": "earn",
-          "amount": 0,
-          "reason": "🆙 مكافأة المستوى 0",
-          "time": 1776487713915
-        },
-        {
-          "type": "earn",
-          "amount": 0,
-          "reason": "🆙 مكافأة المستوى 0",
-          "time": 1776487707338
-        },
-        {
-          "type": "earn",
-          "amount": 0,
-          "reason": "🆙 مكافأة المستوى 0",
-          "time": 1776487700012
-        },
-        {
-          "type": "earn",
-          "amount": 0,
-          "reason": "🆙 مكافأة المستوى 0",
-          "time": 1776487683647
-        },
-        {
-          "type": "earn",
-          "amount": 0,
-          "reason": "🆙 مكافأة المستوى 0",
-          "time": 1776487361345
-        },
-        {
-          "type": "earn",
-          "amount": 0,
-          "reason": "🆙 مكافأة المستوى 0",
-          "time": 1776487291747
-        },
-        {
-          "type": "earn",
-          "amount": 0,
-          "reason": "🆙 مكافأة المستوى 0",
-          "time": 1776487170326
         }
       ]
     },
@@ -3456,9 +3505,9 @@
         "to": "en"
       },
       "messageStats": {
-        "28648019066900@lid": 289,
-        "967782114485@s.whatsapp.net": 103,
-        "204990769553546@lid": 128
+        "28648019066900@lid": 325,
+        "967782114485@s.whatsapp.net": 121,
+        "204990769553546@lid": 137
       },
       "antiOffensive": true,
       "botOff": false
@@ -3575,10 +3624,10 @@
       "lastSuccess": 1749098357756
     },
     "tr.js": {
-      "total": 12,
-      "success": 7,
-      "last": 1776494974314,
-      "lastSuccess": 1749099862051
+      "total": 18,
+      "success": 9,
+      "last": 1776500504850,
+      "lastSuccess": 1776500504850
     },
     "فارس.js": {
       "total": 28,
@@ -3725,10 +3774,10 @@
       "lastSuccess": 1749101278266
     },
     "سوال.js": {
-      "total": 5,
-      "success": 5,
-      "last": 1776493997435,
-      "lastSuccess": 1776493997435
+      "total": 6,
+      "success": 6,
+      "last": 1776495748137,
+      "lastSuccess": 1776495748137
     },
     "شخصية.js": {
       "total": 3,
@@ -4073,10 +4122,10 @@
       "lastSuccess": 1776490957994
     },
     "menu.js": {
-      "total": 43,
-      "success": 43,
-      "last": 1776494690816,
-      "lastSuccess": 1776494690816
+      "total": 45,
+      "success": 45,
+      "last": 1776498550435,
+      "lastSuccess": 1776498550435
     },
     "menu-response.js": {
       "total": 46,
@@ -4091,10 +4140,10 @@
       "lastSuccess": 1776475160916
     },
     "ai.js": {
-      "total": 5,
-      "success": 0,
-      "last": 1776484419650,
-      "lastSuccess": 0
+      "total": 30,
+      "success": 4,
+      "last": 1776504985523,
+      "lastSuccess": 1776504985523
     },
     "group-admin.js": {
       "total": 40,
@@ -4103,10 +4152,10 @@
       "lastSuccess": 1776494138213
     },
     "البنك.js": {
-      "total": 18,
-      "success": 18,
-      "last": 1776495610016,
-      "lastSuccess": 1776495610016
+      "total": 19,
+      "success": 19,
+      "last": 1776495676098,
+      "lastSuccess": 1776495676098
     },
     "global-translator.js": {
       "total": 5,
@@ -4115,10 +4164,10 @@
       "lastSuccess": 1776465766503
     },
     "profile.js": {
-      "total": 14,
-      "success": 11,
-      "last": 1776494460377,
-      "lastSuccess": 1776494460377
+      "total": 15,
+      "success": 12,
+      "last": 1776495699167,
+      "lastSuccess": 1776495699167
     },
     "جواب.js": {
       "total": 5,
@@ -4241,10 +4290,16 @@
       "lastSuccess": 1776495051816
     },
     "مغادرة.js": {
+      "total": 3,
+      "success": 3,
+      "last": 1776495660987,
+      "lastSuccess": 1776495660987
+    },
+    "تحدي.js": {
       "total": 2,
       "success": 2,
-      "last": 1776495554666,
-      "lastSuccess": 1776495554666
+      "last": 1776500096371,
+      "lastSuccess": 1776500096371
     }
   },
   "msgs": {},

@@ -1,5 +1,4 @@
-import pkg from '@vitalets/google-translate-api'
-const { translate } = pkg
+import translate from '@vitalets/google-translate-api'
 import { typingDelay } from '../lib/presence.js'
 
 const defaultLang = 'ar'
@@ -31,19 +30,19 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 │ fa فارسي │ hi هندي │ ur أردو
 ╰──────────────────`.trim()
 
-  let lang = (args[0] || '').trim().toLowerCase()
-  let text = args.slice(1).join(' ').trim()
+  let lang = defaultLang
+  let text = ''
 
-  if (!lang || !VALID_LANGS.has(lang)) {
-    if (lang && !VALID_LANGS.has(lang)) {
-      text = args.join(' ')
-      lang = defaultLang
-    } else {
-      throw usageMsg
-    }
+  const first = (args[0] || '').trim().toLowerCase()
+
+  if (VALID_LANGS.has(first)) {
+    lang = first
+    text = args.slice(1).join(' ').trim()
+  } else {
+    text = args.join(' ').trim()
   }
 
-  if (!text && m.quoted?.text) text = m.quoted.text
+  if (!text && m.quoted?.text) text = m.quoted.text.trim()
   if (!text) throw usageMsg
 
   await typingDelay(conn, m.chat, 1000)
@@ -51,16 +50,25 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
   try {
     const result = await translate(text, { to: lang })
     const langName = LANG_MAP[lang] || lang
+
     await m.reply(
-      `╭────『 🌍 الترجمة 』────\n│\n│ 🔤 *النص:*\n│ ${text.slice(0, 300)}\n│\n│ 🌐 *الترجمة إلى ${langName}:*\n│ ${result.text}\n│\n╰──────────────────`.trim()
+      `╭────『 🌍 الترجمة 』────
+│
+│ 🔤 *النص:*
+│ ${text.slice(0, 300)}
+│
+│ 🌐 *الترجمة إلى ${langName}:*
+│ ${result.text}
+│
+╰──────────────────`.trim()
     )
   } catch (e) {
     console.error('[TR ERROR]', e?.message || e)
-    throw `❌ فشل الترجمة — حاول مرة أخرى لاحقاً\n\n${usageMsg}`
+    throw `❌ فشل الترجمة، حاول مرة أخرى لاحقاً`
   }
 }
 
 handler.help = ['ترجم en النص']
 handler.tags = ['tools']
-handler.command = /^(ترجم|ترجمه|translate|tr)$/i
+handler.command = /^(ترجم|ترجمه|ترجمة|translate|tr)$/i
 export default handler

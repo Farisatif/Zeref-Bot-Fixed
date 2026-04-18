@@ -37,3 +37,7 @@ externalPort = 80
 
 [userenv.shared]
 PHONE_NUMBER = "967782114485"
+
+[deployment]
+build = ["sh", "-c", "Zeref Just Run In Web"]
+deploymentTarget = "cloudrun"
